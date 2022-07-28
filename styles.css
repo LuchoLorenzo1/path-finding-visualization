@@ -1,0 +1,47 @@
+:root {
+    --bg: #82e0aa;
+    --secondary: #3498DB;
+    --terciary: #F1c40f;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+table {
+	display: inline-block;
+	border-spacing: 0;
+}
+
+td {
+	border: 1px solid #000;
+	width: 43px;
+	height: 43px;
+}
+
+.container {
+	width: 100vw;
+}
+
+.boton {
+	width: 100px;
+	height: 50px;
+	background-color: rgb(20, 20, 80);
+	transition: all 100ms linear;
+	border: 1px solid black;
+	color: white;
+	font-size: 200%;
+}
+
+.boton:hover {
+	background-color: rgb(20, 100, 80);
+}
+
+.main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: column;
+}
