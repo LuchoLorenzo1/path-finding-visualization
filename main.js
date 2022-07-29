@@ -1,125 +1,125 @@
-var grafo
-var origen
-var destino
+var grafo = new Map();
+var origen = '6:5';
+var destino = '8:0';
+var N = 10;
+var M = 50;
 
 window.addEventListener('load', () => {
   grafo = main()
-  origen = '6:5'
-  destino = '8:0'
+	document.getElementById(origen).style.background = 'green'
+	document.getElementById(destino).style.background = 'blue'
 })
 
 const startButton = document.getElementById('start-algorithm')
 startButton.addEventListener('click', () => {
-  dijsktra(grafo, origen, destino)
+  dijsktra(origen, destino)
 })
 
-
 const grilla = document.getElementById('grilla')
-grilla.addEventListener("click",(e) => {
-		console.log(e.target)
-		const [x,y] = e.target.id.split(':')
-		grafo[x][y]++;
-		console.log(grafo)
-		e.target.style.background = 'red'
+grilla.addEventListener('click', (e) => {
+	e.target.value = grafo.get(e.target.id).peso++;
+  e.target.style.background = 'red'
 })
 
 function main() {
-const grilla = document.getElementById('grilla')
-const grafo = []
+  const grilla = document.getElementById('grilla')
 
-  for (let j = 0; j < 10; j++) {
-    const fila = []
+  for (let j = 0; j < N; j++) {
     const tr = document.createElement('tr')
-    for (let i = 0; i <= 50; i++) {
+    for (let i = 0; i <= M; i++) {
       const td = document.createElement('td')
-      const content = document.createTextNode(` `)
+      const content = document.createTextNode(`1`)
       td.classList.add('celda')
       td.setAttribute('id', `${j}:${i}`)
       td.appendChild(content)
-      fila.push(1)
       tr.appendChild(td)
-   }
+			grafo.set(`${j}:${i}`, {peso:1, actual:Infinity, camino:[]})
+    }
     tr.classList.add('fila')
     grilla.appendChild(tr)
-    grafo.push(fila)
   }
   return grafo
 }
 
-
-function dijsktra(grafo, origen, destino) {
-  // origen = '4,6'
-  // destino = '8,0'
-
-  // grafo = [
-  //   [1, 1, 1, 2, 2, 3, 3, 4, 5, 6],
-  //   [1, 1, 1, 1, 1, 2, 3, 4, 4, 5],
-  //   [1, 1, 1, 1, 1, 2, 2, 3, 4, 5],
-  //   [1, 1, 1, 1, 1, 1, 2, 2, 3, 4],
-  //   [1, 1, 1, 1, 1, 1, 1, 1, 2, 3],
-  //   [1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-  //   [1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-  //   [1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-  //   [1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-  //   [1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-  // ]
-
-  // resultado = [
-  // [ [5, ["1,2","0,2","0,1"]], [4, ["1,2", "0,2"]], ...]
-  // [ [Math.Infinity, ["1,2","0,2","0,1"]], [Math.Infinity, ["1,2"]], ...]
-  //]
-	const N = grafo.length
-	const M = grafo[0].length
-
-
+function dijsktra(origen, destino) {
   const visitados = new Set()
+	visitados.add(origen)
+	grafo.get(origen).actual = 0
 
-  const [origenx, origeny] = origen.split(':')
-  const [destinox, destinoy] = destino.split(':')
-
-  const resultado = []
-  for (let i = 0; i < N; i++) {
-    const fila = []
-    for (let j = 0; j < M; j++) {
-      fila.push([Infinity, []])
-    }
-    resultado.push(fila)
-  }
-  resultado[origenx][origeny][0] = 0
-  resultado[origenx][origeny][1] = [`${origenx}:${origeny}`]
-
+	const actual = origen
   while (!visitados.has(destino)) {
-	  const [actx, acty] = minimo(visitados, resultado)
-	  let dActual = grafo[actx][acty]
+    actual = minimo(visitados, grafo)
 
-	  let adyacentes = [[0,1],[0,-1],[1,0],[-1,0]]
+    let dActual = grafo.[actx][acty]
+    let adyacentes = [
+      [0, 1],
+      [0, -1],
+      [1, 0],
+      [-1, 0],
+    ]
 
-	  for (const ady of adyacentes) {
-				let x = actx+ady[0]
-				let y = acty+ady[1]
-				console.log(x,y)
+    for (const ady of adyacentes) {
+      let x = actx + ady[0]
+      let y = acty + ady[1]
 
-				if ( x < 0  || x >= N || y < 0|| y >= M) {
-						continue;
-				}
+      if (x < 0 || x >= N || y < 0 || y >= M) {
+        continue
+      }
 
-				if (dActual + grafo[x][y] < resultado[x][y][0]) {
-						resultado[x][y][0] = dActual + grafo[x][y]
-						resultado[x][y][1].push(`${actx}:${acty}`)
-				}
-	  }
+      if (dActual + grafo[x][y] < resultado[x][y][0]) {
+        resultado[x][y][0] = dActual + grafo[x][y]
+        resultado[x][y][1].push(`${actx}:${acty}`)
+      }
+    }
 
-	  visitados.add(`${actx}:${acty}`)
+    visitados.add(`${actx}:${acty}`);
+		document.getElementById(`${actx}:${acty}`).style.background = 'green';
   }
 
-  console.log(resultado)
 }
 
-function minimo(visitados, resultado) {
-		resultado
-		console.log(visitados)
-		for (const v of visitados) {
-				const [x,y] = v.split(':')
+function minimo(visitados, grafo, resultado) {
+	console.log("==funcion minimo==")
+	console.log("visitados:")
+	console.log(visitados)
 
-		}
+	let minimo = Infinity;
+	const minCoords = [7,7]
+
+	let N = grafo.length
+	let M = grafo[0].length
+	console.log(N, M)
+
+  for (const v of visitados) {
+    let [vx, vy] = v.split(':')
+		vx = parseInt(vx)
+		vy = parseInt(vy)
+
+    let adyacentes = [
+      [0, 1],
+      [0, -1],
+      [1, 0],
+      [-1, 0],
+    ]
+
+    for (const ady of adyacentes) {
+      let x = vx + ady[0]
+      let y = vy + ady[1]
+			if (x < 0 || x >= N || y < 0 || y >= M) {
+				continue
+			}
+			if(visitados.has(`${x}:${y}`)){
+				continue;
+			}
+
+			console.log(`x:${x}, y:${y}`)
+			if (resultado[vx][vy][0] + grafo[x][y] < minimo){
+					minimo = resultado[vx][vy][0] + grafo[x][y] ;
+					minCoords[0] = x;
+					minCoords[1] = y;
+			}
+    }
+	}
+	return minCoords
 }
+
