@@ -29,6 +29,16 @@ function main() {
       td.appendChild(content)
       fila.push(1)
       tr.appendChild(td)
+
+
+			// -- TODO: add events delegation
+			td.addEventListener("click",(e) => {
+				const [x,y] = e.target.id.split(':')
+				grafo[x][y]++;
+				console.log(grafo)
+				e.target.style.background = ''
+			})
+
     }
     tr.classList.add('fila')
     grilla.appendChild(tr)
