@@ -65,7 +65,7 @@ function dijsktra(origen, destino) {
       if (!ady) continue
       if (actual.actual + ady.peso < ady.actual) {
 				ady.actual = actual.actual + ady.peso
-
+				adt.camino.push(actualNombre)
       }
     }
 
