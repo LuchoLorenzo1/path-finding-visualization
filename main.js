@@ -17,9 +17,11 @@ startButton.addEventListener('click', () => {
 
 const grilla = document.getElementById('grilla')
 grilla.addEventListener('click', (e) => {
-	let nPeso = ++grafo.get(e.target.id).peso
-	e.target.innerText = nPeso
-  e.target.style.background = `rgb(${200-10*nPeso},${200-10*nPeso},${100})`
+  let nPeso = ++grafo.get(e.target.id).peso
+  e.target.innerText = nPeso
+  e.target.style.background = `rgb(${200 - 10 * nPeso},${
+    200 - 10 * nPeso
+  },${100})`
 })
 
 function main() {
@@ -48,7 +50,7 @@ function dijsktra(origen, destino) {
 
   while (!visitados.has(destino)) {
     let actualNombre = minimo(visitados, grafo)
-		let actual = grafo.get(actualNombre)
+    let actual = grafo.get(actualNombre)
     let [actx, acty] = actualNombre.split(':')
     actx = parseInt(actx)
     acty = parseInt(acty)
@@ -64,51 +66,38 @@ function dijsktra(origen, destino) {
       console.log(ady)
       if (!ady) continue
       if (actual.actual + ady.peso < ady.actual) {
-				ady.actual = actual.actual + ady.peso
-				adt.camino.push(actualNombre)
+        ady.actual = actual.actual + ady.peso
+        adt.camino.push(actualNombre)
       }
     }
-
     visitados.add(actual)
     document.getElementById(actual).style.background = 'green'
   }
 }
 
-function minimo(visitados, grafo, resultado) {
+function minimo(visitados, grafo) {
   console.log('==funcion minimo==')
   console.log('visitados:')
   console.log(visitados)
 
   let minimo = Infinity
-  const minCoords = [7, 7]
-
-  let N = grafo.length
-  let M = grafo[0].length
-  console.log(N, M)
+  let actual;
 
   for (const v of visitados) {
-    let [vx, vy] = v.split(':')
-    vx = parseInt(vx)
-    vy = parseInt(vy)
+    let [actx, acty] = v.split(':')
+    actx = parseInt(actx)
+    acty = parseInt(acty)
 
     let adyacentes = [
-      [0, 1],
-      [0, -1],
-      [1, 0],
-      [-1, 0],
+      grafo.get(`${actx + 1}:${acty}`),
+      grafo.get(`${actx - 1}:${acty}`),
+      grafo.get(`${actx}:${acty + 1}`),
+      grafo.get(`${actx}:${acty - 1}`),
     ]
 
     for (const ady of adyacentes) {
-      let x = vx + ady[0]
-      let y = vy + ady[1]
-      if (x < 0 || x >= N || y < 0 || y >= M) {
-        continue
-      }
-      if (visitados.has(`${x}:${y}`)) {
-        continue
-      }
+      if (!ady || visitados.has(ady)) continue;
 
-      console.log(`x:${x}, y:${y}`)
       if (resultado[vx][vy][0] + grafo[x][y] < minimo) {
         minimo = resultado[vx][vy][0] + grafo[x][y]
         minCoords[0] = x
