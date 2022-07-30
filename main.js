@@ -1,8 +1,12 @@
+// -- TODO: hacer que el camino no sea un array, y q sea el anterior nomas xd
+
 var grafo = new Map()
-var origen = '5:10'
-var destino = '5:48'
-var N = 10
-var M = 50
+var origen = '10:5'
+var destino = '40:40'
+const N = 50
+const M = 50
+
+console.log(window.origen)
 
 window.addEventListener('load', () => {
   grafo = main()
