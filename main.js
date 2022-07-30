@@ -1,6 +1,6 @@
 var grafo = new Map()
-var origen = '6:5'
-var destino = '8:0'
+var origen = '5:10'
+var destino = '5:48'
 var N = 10
 var M = 50
 
@@ -15,14 +15,26 @@ startButton.addEventListener('click', () => {
   dijsktra(origen, destino)
 })
 
+window.addEventListener('contextmenu', (e) => {
+  e.preventDefault()
+  if (grafo.has(e.target.id)) {
+		grafo.get(e.target.id).peso = Infinity
+    e.target.innerText = '∞'
+    e.target.style.background = 'black'
+    e.target.style.color = 'white'
+  }
+})
+
 const grilla = document.getElementById('grilla')
 grilla.addEventListener('click', (e) => {
-  let nPeso = ++grafo.get(e.target.id).peso
-  e.target.innerText = nPeso
-  e.target.style.background = `rgb(${200 - 10 * nPeso},${
-    200 - 10 * nPeso
-  },${100})`
+  console.log(e.button)
+  if (grafo.has(e.target.id)) {
+    let nPeso = ++grafo.get(e.target.id).peso
+    e.target.innerText = nPeso
+    e.target.style.background = `rgb(${200 - 10 * nPeso},${ 200 - 10 * nPeso },${100})`
+  }
 })
+
 
 function main() {
   const grilla = document.getElementById('grilla')
@@ -44,14 +56,20 @@ function main() {
 }
 
 function dijsktra(origen, destino) {
+  console.log(grafo)
+  console.log(origen)
+  console.log('==dijsktra==')
   const visitados = new Set()
   visitados.add(origen)
   grafo.get(origen).actual = 0
 
+  let actualNombre = origen
   while (!visitados.has(destino)) {
-    let actualNombre = minimo(visitados, grafo)
+		if(!actualNombre) break;
+
     let actual = grafo.get(actualNombre)
     let [actx, acty] = actualNombre.split(':')
+    console.log(`actualNombre: ${actualNombre}`)
     actx = parseInt(actx)
     acty = parseInt(acty)
 
@@ -67,41 +85,54 @@ function dijsktra(origen, destino) {
       if (!ady) continue
       if (actual.actual + ady.peso < ady.actual) {
         ady.actual = actual.actual + ady.peso
-        adt.camino.push(actualNombre)
+        ady.camino = [...actual.camino]
+				ady.camino.push(actualNombre)
       }
     }
-    visitados.add(actual)
-    document.getElementById(actual).style.background = 'green'
+
+    visitados.add(actualNombre)
+    document.getElementById(actualNombre).style.background = 'yellow'
+    actualNombre = minimo(visitados, grafo)
   }
+
+	dest = grafo.get(destino)
+	if(!dest){
+			alert("es imposible llegar a destino")
+			return;
+	}
+	console.log('====FIN DIJSKTRA ====')
+	console.log(dest)
+
+
+	dest.camino.forEach(element => {
+    document.getElementById(element).style.background = 'brown'
+	});
+	document.getElementById(origen).style.background = 'green'
+	document.getElementById(destino).style.background = 'blue'
 }
 
 function minimo(visitados, grafo) {
-  console.log('==funcion minimo==')
-  console.log('visitados:')
-  console.log(visitados)
-
   let minimo = Infinity
-  let actual;
-
-  for (const v of visitados) {
-    let [actx, acty] = v.split(':')
+  let minCoords
+  for (const visitado of visitados) {
+    let actual = grafo.get(visitado)
+    let [actx, acty] = visitado.split(':')
     actx = parseInt(actx)
     acty = parseInt(acty)
 
     let adyacentes = [
-      grafo.get(`${actx + 1}:${acty}`),
-      grafo.get(`${actx - 1}:${acty}`),
-      grafo.get(`${actx}:${acty + 1}`),
-      grafo.get(`${actx}:${acty - 1}`),
+      `${actx + 1}:${acty}`,
+      `${actx - 1}:${acty}`,
+      `${actx}:${acty + 1}`,
+      `${actx}:${acty - 1}`,
     ]
 
-    for (const ady of adyacentes) {
-      if (!ady || visitados.has(ady)) continue;
-
-      if (resultado[vx][vy][0] + grafo[x][y] < minimo) {
-        minimo = resultado[vx][vy][0] + grafo[x][y]
-        minCoords[0] = x
-        minCoords[1] = y
+    for (const coords of adyacentes) {
+      let ady = grafo.get(coords)
+      if (!ady || visitados.has(coords)) continue
+      if (actual.actual + ady.peso < minimo) {
+        minimo = actual.actual + ady.peso
+        minCoords = coords
       }
     }
   }
