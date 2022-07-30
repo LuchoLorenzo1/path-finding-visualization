@@ -1,139 +1,78 @@
+import dijkstra  from './src/algorithms/dijkstra.js'
+
 // -- TODO: hacer que el camino no sea un array, y q sea el anterior nomas xd
-var grafo = new Map()
-var origen = '3:3'
-var destino = '30:73'
-const N = 33
-const M = 75
+
+const pesoDefault = 1
+
+
+var N = 34
+var M = 75
+var origen = `${N / 2}:0`
+var destino = `${N / 2}:${M - 1}`
+
+
+var pesos = []
+
+for (let i = 0; i < N; i++) {
+  let l = []
+  for (let j = 0; j < M; j++) {
+    l.push(1)
+  }
+  pesos.push(l)
+}
 
 window.addEventListener('load', () => {
-  grafo = main()
+  crearGrilla()
   document.getElementById(origen).style.background = 'green'
   document.getElementById(destino).style.background = 'blue'
 })
 
-const startButton = document.getElementById('start-algorithm')
-startButton.addEventListener('click', () => {
-  dijkstra(origen, destino)
+document.getElementById('start-algorithm').addEventListener('click', () => {
+  const resultado = dijkstra(pesos, origen, destino)
+	console.log(resultado)
+	if(!resultado) return
+	// animar(origen, destino, resultado[0], resultado[1])
 })
 
 window.addEventListener('contextmenu', (e) => {
   e.preventDefault()
-  if (grafo.has(e.target.id)) {
-    grafo.get(e.target.id).peso = Infinity
-    e.target.innerText = '∞'
-    e.target.style.background = 'black'
-    e.target.style.color = 'white'
-  }
+  let [x, y] = e.target.id.split(':')
+  pesos[parseInt(x)][parseInt(y)] = Infinity
+  e.target.innerText = '∞'
+  e.target.style.background = 'black'
+  e.target.style.color = 'white'
 })
 
-const grilla = document.getElementById('grilla')
-grilla.addEventListener('click', (e) => {
-  if (grafo.has(e.target.id)) {
-    let nPeso = ++grafo.get(e.target.id).peso
-    e.target.innerText = nPeso
-    e.target.style.background = `rgb(${200 - 10 * nPeso},${
-      200 - 10 * nPeso
-    },${100})`
-  }
+document.getElementById('grilla').addEventListener('click', (e) => {
+  if (e.target.id == origen || e.target.id == destino) return
+  let [x, y] = e.target.id.split(':')
+  x = parseInt(x)
+  y = parseInt(y)
+  let nPeso = ++pesos[x][y]
+  e.target.innerText = nPeso
+  e.target.style.background = `rgb(${200 - 10 * nPeso},${
+    200 - 10 * nPeso
+  },${100})`
 })
 
-function main() {
+function crearGrilla() {
   const grilla = document.getElementById('grilla')
-  for (let j = 0; j < N; j++) {
+  grilla.innerHTML = ''
+
+  for (let i = 0; i < N; i++) {
     const tr = document.createElement('tr')
-    for (let i = 0; i <= M; i++) {
+
+    for (let j = 0; j < M; j++) {
       const td = document.createElement('td')
-      const content = document.createTextNode(`1`)
+      const content = document.createTextNode(pesoDefault)
+
       td.classList.add('celda')
-      td.setAttribute('id', `${j}:${i}`)
+      td.setAttribute('id', `${i}:${j}`)
       td.appendChild(content)
       tr.appendChild(td)
-      grafo.set(`${j}:${i}`, { peso: 1, actual: Infinity, camino: [] })
     }
+
     tr.classList.add('fila')
     grilla.appendChild(tr)
   }
-  return grafo
-}
-
-function dijkstra(origen, destino) {
-  var startTimeDijkstra = performance.now()
-  const orden_visitados = []
-  const visitados = new Set()
-  visitados.add(origen)
-  grafo.get(origen).actual = 0
-
-  let actualNombre = origen
-  while (!visitados.has(destino)) {
-    if (!actualNombre) break
-
-    let actual = grafo.get(actualNombre)
-    let [actx, acty] = actualNombre.split(':')
-    actx = parseInt(actx)
-    acty = parseInt(acty)
-
-    let adyacentes = [
-      grafo.get(`${actx + 1}:${acty}`),
-      grafo.get(`${actx - 1}:${acty}`),
-      grafo.get(`${actx}:${acty + 1}`),
-      grafo.get(`${actx}:${acty - 1}`),
-    ]
-
-    for (const ady of adyacentes) {
-      if (!ady) continue
-      if (actual.actual + ady.peso < ady.actual) {
-        ady.actual = actual.actual + ady.peso
-        ady.camino = [...actual.camino]
-        ady.camino.push(actualNombre)
-      }
-    }
-
-    visitados.add(actualNombre)
-    orden_visitados.push(actualNombre)
-    actualNombre = minimo(visitados, grafo)
-  }
-
-  dest = grafo.get(destino)
-  if (dest.camino.length == 0) {
-    alert('es imposible llegar a destino')
-    return NULL;
-  }
-
-  var endTimeDijkstra = performance.now()
-
-  alert(
-    `Dijkstra, time:${
-      (endTimeDijkstra - startTimeDijkstra) / 1000
-    }s, path length: ${dest.camino.length}, nodes visited: ${visitados.size} `
-  )
-
-  return orden_visitados, dest.camino
-}
-
-function minimo(visitados, grafo) {
-  let minimo = Infinity
-  let minCoords
-  for (const visitado of visitados) {
-    let actual = grafo.get(visitado)
-    let [actx, acty] = visitado.split(':')
-    actx = parseInt(actx)
-    acty = parseInt(acty)
-
-    let adyacentes = [
-      `${actx + 1}:${acty}`,
-      `${actx - 1}:${acty}`,
-      `${actx}:${acty + 1}`,
-      `${actx}:${acty - 1}`,
-    ]
-
-    for (const coords of adyacentes) {
-      let ady = grafo.get(coords)
-      if (!ady || visitados.has(coords)) continue
-      if (actual.actual + ady.peso < minimo) {
-        minimo = actual.actual + ady.peso
-        minCoords = coords
-      }
-    }
-  }
-  return minCoords
 }
