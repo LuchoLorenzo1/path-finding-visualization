@@ -40,7 +40,6 @@ export function clearStylesGrilla(N,M, pesos, origen, destino) {
 				cambiarCelda(td, "pesado")
 				td.style.background = `rgb(${200 - 10 * nPeso},${ 200 - 10 * nPeso },${100})`
 			} else {
-				console.log(td.style)
 				cambiarCelda(td, "vacio")
 			}
     }

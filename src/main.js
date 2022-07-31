@@ -2,14 +2,12 @@ import animar from './animar.js'
 import dijkstra from './algorithms/dijkstra.js'
 import { crearGrilla, clearStylesGrilla, cambiarCelda } from './grilla.js'
 
-// -- TODO: hacer que el camino no sea un array, y q sea el anterior nomas xd
 const pesoDefault = 1
-
+const algorithms = ["Dijkstra", "DFS", "BFS", "A*"]
 var N = 10
 var M = 50
 var origen = `${Math.floor(N/2)}:2`
 var destino = `${Math.floor(N/2)}:${M-3}`
-
 var moviendo;
 
 var pesos = []
@@ -24,11 +22,35 @@ for (let i = 0; i < N; i++) {
 
 window.addEventListener('load', () => {
   crearGrilla(N, M, origen, destino)
+	const selector = document.getElementById("select-algorithm")
+	for (let i = 0; i < algorithms.length; i++) {
+		const option = document.createElement("option")
+		option.value = i;
+		option.innerText = algorithms[i];
+		selector.appendChild(option)
+	}
 })
 
 document.getElementById('start-algorithm').addEventListener('click', () => {
-  clearStylesGrilla(N, M, pesos, origen, destino)
-  const resultado = dijkstra(pesos, origen, destino)
+	clearStylesGrilla(N, M, pesos, origen, destino)
+	const selector = document.getElementById("select-algorithm")
+	let resultado;
+	switch (+selector.value) {
+		case 0:
+			resultado = dijkstra(pesos, origen, destino)
+			break;
+		case 1:
+			resultado = dfs(pesos, origen, destino)
+			break;
+		case 2:
+			resultado = bfs(pesos, origen, destino)
+			break;
+		case 3:
+			resultado = aStar(pesos, origen, destino)
+			break;
+		default:
+			break;
+	}
   if (!resultado) return
   animar(resultado[0], resultado[1])
 })
@@ -88,7 +110,7 @@ document.getElementById('grilla').addEventListener('click', (e) => {
 	}
 
   let nPeso = ++pesos[x][y]
-  // e.target.innerText = nPeso
-  e.target.style.background = `rgb(${200 - 10 * nPeso},${200 - 10 * nPeso },${100})`
+  e.target.innerText = nPeso
+	cambiarCelda(e.target, 'pesado')
 })
 
