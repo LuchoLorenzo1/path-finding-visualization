@@ -18,6 +18,8 @@ export function crearGrilla(N,M) {
     tr.classList.add('fila')
     grilla.appendChild(tr)
   }
+  document.getElementById(origen).style.background = 'green'
+  document.getElementById(destino).style.background = 'blue'
 }
 
 export function clearStylesGrilla(N,M, pesos, origen, destino) {

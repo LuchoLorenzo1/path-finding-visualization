@@ -5,10 +5,10 @@ import { crearGrilla, clearStylesGrilla } from './grilla.js'
 // -- TODO: hacer que el camino no sea un array, y q sea el anterior nomas xd
 const pesoDefault = 1
 
-var N = 10
+var N = 11
 var M = 50
-var origen = '0:0'
-var destino = '5:5'
+var origen = '5:10'
+var destino = '5:40'
 var moviendo;
 
 var pesos = []
@@ -22,9 +22,7 @@ for (let i = 0; i < N; i++) {
 }
 
 window.addEventListener('load', () => {
-  crearGrilla(N, M)
-  document.getElementById(origen).style.background = 'green'
-  document.getElementById(destino).style.background = 'blue'
+  crearGrilla(N, M, origen, destino)
 })
 
 document.getElementById('start-algorithm').addEventListener('click', () => {
@@ -32,6 +30,10 @@ document.getElementById('start-algorithm').addEventListener('click', () => {
   const resultado = dijkstra(pesos, origen, destino)
   if (!resultado) return
   animar(origen, destino, resultado[0], resultado[1])
+})
+
+document.getElementById('clean-grilla').addEventListener('click', () => {
+  crearGrilla(N, M, pesos, origen, destino)
 })
 
 window.addEventListener('contextmenu', (e) => {
