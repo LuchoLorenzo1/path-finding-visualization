@@ -9,6 +9,7 @@ var N = 10
 var M = 50
 var origen = '0:0'
 var destino = '5:5'
+var moviendo;
 
 var pesos = []
 
@@ -22,20 +23,14 @@ for (let i = 0; i < N; i++) {
 
 window.addEventListener('load', () => {
   crearGrilla(N, M)
-  console.log(origen)
   document.getElementById(origen).style.background = 'green'
   document.getElementById(destino).style.background = 'blue'
 })
 
 document.getElementById('start-algorithm').addEventListener('click', () => {
   clearStylesGrilla(N, M, pesos, origen, destino)
-
   const resultado = dijkstra(pesos, origen, destino)
-  console.log(resultado)
-
   if (!resultado) return
-  console.log(resultado[0])
-  console.log(resultado[1])
   animar(origen, destino, resultado[0], resultado[1])
 })
 
@@ -64,6 +59,7 @@ document.getElementById('grilla').addEventListener('click', (e) => {
 
 	if(moviendo != undefined){
 		document.getElementById(moviendo).style.background = 'white'
+		pesos[x][y] = pesoDefault
 		if(moviendo == origen){
 			origen = e.target.id
 			e.target.style.background = 'green'
