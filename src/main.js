@@ -1,12 +1,12 @@
-import dijkstra from './src/algorithms/dijkstra.js'
-import animar from './src/animar.js'
-import { crearGrilla, clearStylesGrilla } from './src/grilla.js'
+import dijkstra from './algorithms/dijkstra.js'
+import animar from './animar.js'
+import { crearGrilla, clearStylesGrilla } from './grilla.js'
 
 // -- TODO: hacer que el camino no sea un array, y q sea el anterior nomas xd
 const pesoDefault = 1
 
-var N = 6
-var M = 6
+var N = 10
+var M = 50
 var origen = '0:0'
 var destino = '5:5'
 
