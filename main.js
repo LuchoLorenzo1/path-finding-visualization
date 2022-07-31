@@ -1,44 +1,51 @@
-import dijkstra  from './src/algorithms/dijkstra.js'
+import dijkstra from './src/algorithms/dijkstra.js'
+import animar from './src/animar.js'
+import { crearGrilla, clearStylesGrilla } from './src/grilla.js'
 
 // -- TODO: hacer que el camino no sea un array, y q sea el anterior nomas xd
-
 const pesoDefault = 1
 
-
-var N = 34
-var M = 75
-var origen = `${N / 2}:0`
-var destino = `${N / 2}:${M - 1}`
-
+var N = 6
+var M = 6
+var origen = '0:0'
+var destino = '5:5'
 
 var pesos = []
 
 for (let i = 0; i < N; i++) {
   let l = []
   for (let j = 0; j < M; j++) {
-    l.push(1)
+    l.push(pesoDefault)
   }
   pesos.push(l)
 }
 
 window.addEventListener('load', () => {
-  crearGrilla()
+  crearGrilla(N, M)
+  console.log(origen)
   document.getElementById(origen).style.background = 'green'
   document.getElementById(destino).style.background = 'blue'
 })
 
 document.getElementById('start-algorithm').addEventListener('click', () => {
+  clearStylesGrilla(N, M, pesos, origen, destino)
+
   const resultado = dijkstra(pesos, origen, destino)
-	console.log(resultado)
-	if(!resultado) return
-	// animar(origen, destino, resultado[0], resultado[1])
+  console.log(resultado)
+
+  if (!resultado) return
+  console.log(resultado[0])
+  console.log(resultado[1])
+  animar(origen, destino, resultado[0], resultado[1])
 })
 
 window.addEventListener('contextmenu', (e) => {
+  if (e.target.nodeName != 'TD') return
+
   e.preventDefault()
   let [x, y] = e.target.id.split(':')
   pesos[parseInt(x)][parseInt(y)] = Infinity
-  e.target.innerText = '∞'
+  // e.target.innerText = '∞'
   e.target.style.background = 'black'
   e.target.style.color = 'white'
 })
@@ -49,52 +56,8 @@ document.getElementById('grilla').addEventListener('click', (e) => {
   x = parseInt(x)
   y = parseInt(y)
   let nPeso = ++pesos[x][y]
-  e.target.innerText = nPeso
+  // e.target.innerText = nPeso
   e.target.style.background = `rgb(${200 - 10 * nPeso},${
     200 - 10 * nPeso
   },${100})`
 })
-
-function crearGrilla() {
-  const grilla = document.getElementById('grilla')
-  grilla.innerHTML = ''
-
-  for (let i = 0; i < N; i++) {
-    const tr = document.createElement('tr')
-
-    for (let j = 0; j < M; j++) {
-      const td = document.createElement('td')
-      const content = document.createTextNode(pesoDefault)
-
-      td.classList.add('celda')
-      td.setAttribute('id', `${i}:${j}`)
-      td.appendChild(content)
-      tr.appendChild(td)
-    }
-
-    tr.classList.add('fila')
-    grilla.appendChild(tr)
-  }
-}
-
-function clearStylesGrilla() {
-  for (let i = 0; i < N; i++) {
-    for (let j = 0; j < M; j++) {
-      const td = document.getElementById(`${i}:${j}`)
-			let nPeso = pesos[i][j]
-
-			if (nPeso == Infinity) {
-				td.style.background = 'black'
-				// td.style.color = 'white'
-			} else if (nPeso > 1) {
-				td.style.background = `rgb(${200 - 10 * nPeso},${ 200 - 10 * nPeso },${100})`
-			} else {
-				console.log(i,j)
-				td.style.background = 'white'
-			}
-
-    }
-  }
-	document.getElementById(origen).style.background = 'green'
-	document.getElementById(destino).style.background = 'blue'
-}

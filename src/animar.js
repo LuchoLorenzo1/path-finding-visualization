@@ -1,20 +1,14 @@
-
 function animar(origen, destino, visitados, camino) {
-	document.getElementById(origen).styles.background = 'green';
-	document.getElementById(destino).styles.background = 'blue';
+	document.getElementById(origen).style.background = 'green'
+	document.getElementById(destino).style.background = 'blue'
 
-	for (const v of visitados) {
-		setTimeout(() => {
-			document.getElementById(v).styles.background = 'brown';
-		}, 100);
+	for (let i = 1; i < visitados.length-1; i++) {
+		document.getElementById(visitados[i]).style.background = 'brown';
 	}
 
-	for (const c of camino) {
-		setTimeout(() => {
-			document.getElementById(c).styles.background = 'brown';
-		}, 100);
+	for (let i = 1; i < camino.length; i++) {
+		document.getElementById(camino[i]).style.background = 'yellow';
 	}
-
 }
 
 export default animar;

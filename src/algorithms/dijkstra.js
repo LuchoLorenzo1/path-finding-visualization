@@ -64,7 +64,7 @@ function dijkstra(pesos, origen, destino) {
     }s, path length: ${dest.camino.length}, nodes visited: ${visitados.size} `
   )
 
-  return ordenVisitas, dest.camino
+  return [ordenVisitas, [...dest.camino]]
 }
 
 function minimo(visitados, grafo) {
