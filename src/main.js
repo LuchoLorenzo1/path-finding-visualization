@@ -33,7 +33,16 @@ document.getElementById('start-algorithm').addEventListener('click', () => {
 })
 
 document.getElementById('clean-grilla').addEventListener('click', () => {
-  crearGrilla(N, M, pesos, origen, destino)
+	console.log("origen antes de limpiar grilla:", origen)
+  crearGrilla(N, M, origen, destino)
+	pesos = []
+	for (let i = 0; i < N; i++) {
+	  let l = []
+	  for (let j = 0; j < M; j++) {
+		l.push(pesoDefault)
+	  }
+	  pesos.push(l)
+	}
 })
 
 window.addEventListener('contextmenu', (e) => {
@@ -43,31 +52,35 @@ window.addEventListener('contextmenu', (e) => {
   let [x, y] = e.target.id.split(':')
   pesos[parseInt(x)][parseInt(y)] = Infinity
   // e.target.innerText = '∞'
-  e.target.style.background = 'black'
-  e.target.style.color = 'white'
+	console.log(e.target.classList)
+  e.target.classList.remove(e.target.classList[1])
+	console.log(e.target.classList)
+  e.target.classList.add("wall")
+	console.log(e.target.classList)
 })
+
 
 document.getElementById('grilla').addEventListener('click', (e) => {
   if (e.target.id == origen || e.target.id == destino) {
 		if(!moviendo){
-			console.log("EMPEZANDO A MOVER")
 			moviendo = e.target.id
 		}
 		return;
 	}
+
 	let [x, y] = e.target.id.split(':')
-	x = parseInt(x)
-	y = parseInt(y)
+	x = +x
+	y = +y
 
 	if(moviendo != undefined){
-		document.getElementById(moviendo).style.background = 'white'
+		cambiarCelda(document.getElementById(moviendo),'vacio')
 		pesos[x][y] = pesoDefault
 		if(moviendo == origen){
 			origen = e.target.id
-			e.target.style.background = 'green'
+		  cambiarCelda(e.target, 'origen')
 		} else if(moviendo == destino){
 			destino = e.target.id
-			e.target.style.background = 'blue'
+		  cambiarCelda(e.target, 'destino')
 		}
 		moviendo = undefined
 		return;
@@ -75,7 +88,10 @@ document.getElementById('grilla').addEventListener('click', (e) => {
 
   let nPeso = ++pesos[x][y]
   // e.target.innerText = nPeso
-  e.target.style.background = `rgb(${200 - 10 * nPeso},${
-    200 - 10 * nPeso
-  },${100})`
+  e.target.style.background = `rgb(${200 - 10 * nPeso},${200 - 10 * nPeso },${100})`
 })
+
+function cambiarCelda(element, class_) {
+  element.classList.remove(element.classList[1])
+  e.target.classList.add(class_)
+}

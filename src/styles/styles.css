@@ -1,7 +1,10 @@
 :root {
   --bg: #82e0aa;
-  --secondary: #3498db;
-  --terciary: #f1c40f;
+	--origen: green;
+	--destino: red;
+	--wall: black;
+	--visitados: yellow;
+	--path: pink;
 }
 
 * {
@@ -33,13 +36,14 @@ td {
 }
 
 .boton {
-  width: 100px;
+  width: auto;
   height: 50px;
   background-color: rgb(20, 20, 80);
   transition: all 100ms linear;
   border: 1px solid black;
   color: white;
   font-size: 200%;
+	padding: 5px;
 }
 
 .boton:hover {
@@ -51,4 +55,33 @@ td {
   justify-content: center;
   align-items: center;
   flex-flow: column;
+}
+
+.botonera{
+  width: 100vw;
+  display: flex;
+	/* flex-direction: row; */
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.origen {
+  background-color: var(--origen);
+}
+
+.destino {
+  background-color: var(--destino);
+}
+
+.wall {
+  background-color: var(--wall);
+}
+
+.visitados {
+  background-color: var(--visitados);
+}
+
+
+.path {
+  background-color: var(--path);
 }

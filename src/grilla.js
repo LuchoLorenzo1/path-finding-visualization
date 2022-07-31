@@ -1,4 +1,4 @@
-export function crearGrilla(N,M) {
+export function crearGrilla(N,M,origen,destino) {
   const grilla = document.getElementById('grilla')
   grilla.innerHTML = ''
 
@@ -10,16 +10,20 @@ export function crearGrilla(N,M) {
       const content = document.createTextNode('')
 
       td.classList.add('celda')
+      td.classList.add('vacio')
       td.setAttribute('id', `${i}:${j}`)
       td.appendChild(content)
       tr.appendChild(td)
     }
-
     tr.classList.add('fila')
     grilla.appendChild(tr)
   }
-  document.getElementById(origen).style.background = 'green'
-  document.getElementById(destino).style.background = 'blue'
+	let	o = document.getElementById(origen)
+	let	d = document.getElementById(destino)
+	o.classList.remove()
+	d.classList.remove()
+	o.classList.add("origen")
+	d.classList.add("destino")
 }
 
 export function clearStylesGrilla(N,M, pesos, origen, destino) {
@@ -29,14 +33,22 @@ export function clearStylesGrilla(N,M, pesos, origen, destino) {
 			let nPeso = pesos[i][j]
 
 			if (nPeso == Infinity) {
-				td.style.background = 'black'
+				td.classList.remove()
+				td.classList.add("wall")
 			} else if (nPeso > 1) {
+				td.classList.remove()
+				td.classList.add("pesado")
 				td.style.background = `rgb(${200 - 10 * nPeso},${ 200 - 10 * nPeso },${100})`
 			} else {
-				td.style.background = 'white'
+				td.classList.remove()
+				td.classList.add("vacio")
 			}
     }
   }
-	document.getElementById(origen).style.background = 'green'
-	document.getElementById(destino).style.background = 'blue'
+	let	o = document.getElementById(origen)
+	let	d = document.getElementById(destino)
+	o.classList.remove()
+	d.classList.remove()
+	o.classList.add("origen")
+	d.classList.add("destino")
 }
