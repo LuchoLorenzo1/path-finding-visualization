@@ -51,10 +51,30 @@ window.addEventListener('contextmenu', (e) => {
 })
 
 document.getElementById('grilla').addEventListener('click', (e) => {
-  if (e.target.id == origen || e.target.id == destino) return
-  let [x, y] = e.target.id.split(':')
-  x = parseInt(x)
-  y = parseInt(y)
+  if (e.target.id == origen || e.target.id == destino) {
+		if(!moviendo){
+			console.log("EMPEZANDO A MOVER")
+			moviendo = e.target.id
+		}
+		return;
+	}
+	let [x, y] = e.target.id.split(':')
+	x = parseInt(x)
+	y = parseInt(y)
+
+	if(moviendo != undefined){
+		document.getElementById(moviendo).style.background = 'white'
+		if(moviendo == origen){
+			origen = e.target.id
+			e.target.style.background = 'green'
+		} else if(moviendo == destino){
+			destino = e.target.id
+			e.target.style.background = 'blue'
+		}
+		moviendo = undefined
+		return;
+	}
+
   let nPeso = ++pesos[x][y]
   // e.target.innerText = nPeso
   e.target.style.background = `rgb(${200 - 10 * nPeso},${
