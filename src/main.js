@@ -50,9 +50,14 @@ window.addEventListener('contextmenu', (e) => {
 
   e.preventDefault()
   let [x, y] = e.target.id.split(':')
-  pesos[parseInt(x)][parseInt(y)] = Infinity
-  // e.target.innerText = '∞'
-	cambiarCelda(e.target, "wall")
+	if(pesos[+x][+y] != Infinity){
+		pesos[+x][+y] = Infinity;
+		cambiarCelda(e.target, "wall")
+		// e.target.innerText = '∞'
+	} else {
+		pesos[+x][+y] = pesoDefault;
+		cambiarCelda(e.target, "vacio")
+	}
 })
 
 
