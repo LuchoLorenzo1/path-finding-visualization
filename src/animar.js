@@ -1,34 +1,46 @@
-function animar(origen, destino, visitados, camino) {
+import {cambiarCelda} from "./grilla.js"
+
+function animar(visitados, camino) {
 	// document.getElementById(origen).style.background = 'green'
 	// document.getElementById(destino).style.background = 'blue'
-  let startTime = 100;
+  let delay = 10;
+	let duration = 100;
+	let fill = "forwards"
 
 	for (let i = 1; i < visitados.length-1; i++) {
-	  startTime += 10;
-		let v = document.getElementById(visitados[i])
-		v.animate([
+	  delay += 10;
+		let e = document.getElementById(visitados[i])
+		let a = e.animate([
 			{ background: 'white' },
-			{ background: 'red' }
+			{ background: 'orange' },
 		], {
-			duration: 40,
+			duration,
+			delay,
 		  iterations: '1',
-			fill:'forwards'
+			// fill,
 		});
+		a.finished.then(() => {
+			cambiarCelda(e, "visitados")
+		})
 	}
 
-	startTime += 500;
+	delay += 250;
 	for (let i = 1; i < camino.length; i++) {
-		startTime += 50;
-		document.getElementById(camino[i]).animate([
-			{ background: 'white' },
-			{ background: 'black' }
+		delay += 50;
+		let e = document.getElementById(camino[i])
+		let a = e.animate([
+			{ background: 'orange' },
+			{ background: 'pink' }
 		], {
-			duration: startTime,
-		  iterations: 1
-
+			duration,
+			delay,
+			// fill,
+		  iterations: 1,
 		});
+		a.finished.then(() => {
+			cambiarCelda(e, "path")
+		})
 	}
-
 }
 
 export default animar;

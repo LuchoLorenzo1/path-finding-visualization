@@ -31,17 +31,17 @@ export function clearStylesGrilla(N,M, pesos, origen, destino) {
     for (let j = 0; j < M; j++) {
       const td = document.getElementById(`${i}:${j}`)
 			let nPeso = pesos[i][j]
+			td.removeAttribute("style")
 
 			if (nPeso == Infinity) {
 				td.classList.remove()
 				td.classList.add("wall")
 			} else if (nPeso > 1) {
-				td.classList.remove()
-				td.classList.add("pesado")
+				cambiarCelda(td, "pesado")
 				td.style.background = `rgb(${200 - 10 * nPeso},${ 200 - 10 * nPeso },${100})`
 			} else {
-				td.classList.remove()
-				td.classList.add("vacio")
+				console.log(td.style)
+				cambiarCelda(td, "vacio")
 			}
     }
   }
@@ -51,4 +51,9 @@ export function clearStylesGrilla(N,M, pesos, origen, destino) {
 	d.classList.remove()
 	o.classList.add("origen")
 	d.classList.add("destino")
+}
+
+export function cambiarCelda(element, class_) {
+  element.classList.remove(element.classList[1])
+  element.classList.add(class_)
 }

@@ -1,14 +1,15 @@
-import dijkstra from './algorithms/dijkstra.js'
 import animar from './animar.js'
-import { crearGrilla, clearStylesGrilla } from './grilla.js'
+import dijkstra from './algorithms/dijkstra.js'
+import { crearGrilla, clearStylesGrilla, cambiarCelda } from './grilla.js'
 
 // -- TODO: hacer que el camino no sea un array, y q sea el anterior nomas xd
 const pesoDefault = 1
 
-var N = 11
+var N = 10
 var M = 50
-var origen = '5:10'
-var destino = '5:40'
+var origen = `${Math.floor(N/2)}:2`
+var destino = `${Math.floor(N/2)}:${M-3}`
+
 var moviendo;
 
 var pesos = []
@@ -29,11 +30,10 @@ document.getElementById('start-algorithm').addEventListener('click', () => {
   clearStylesGrilla(N, M, pesos, origen, destino)
   const resultado = dijkstra(pesos, origen, destino)
   if (!resultado) return
-  animar(origen, destino, resultado[0], resultado[1])
+  animar(resultado[0], resultado[1])
 })
 
 document.getElementById('clean-grilla').addEventListener('click', () => {
-	console.log("origen antes de limpiar grilla:", origen)
   crearGrilla(N, M, origen, destino)
 	pesos = []
 	for (let i = 0; i < N; i++) {
@@ -52,11 +52,7 @@ window.addEventListener('contextmenu', (e) => {
   let [x, y] = e.target.id.split(':')
   pesos[parseInt(x)][parseInt(y)] = Infinity
   // e.target.innerText = '∞'
-	console.log(e.target.classList)
-  e.target.classList.remove(e.target.classList[1])
-	console.log(e.target.classList)
-  e.target.classList.add("wall")
-	console.log(e.target.classList)
+	cambiarCelda(e.target, "wall")
 })
 
 
@@ -91,7 +87,3 @@ document.getElementById('grilla').addEventListener('click', (e) => {
   e.target.style.background = `rgb(${200 - 10 * nPeso},${200 - 10 * nPeso },${100})`
 })
 
-function cambiarCelda(element, class_) {
-  element.classList.remove(element.classList[1])
-  e.target.classList.add(class_)
-}
