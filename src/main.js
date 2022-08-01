@@ -8,19 +8,19 @@ var N = 5
 var M = 50
 var origen = `${Math.floor(N/2)}:2`
 var destino = `${Math.floor(N/2)}:${M-3}`
-
 var pesos = []
-for (let i = 0; i < N; i++) {
-  let l = []
-  for (let j = 0; j < M; j++) {
-    l.push(pesoDefault)
-  }
-  pesos.push(l)
-}
+var objetos = ["origen", "destino"]
+
 
 window.addEventListener('load', () => {
-  let startTime= performance.now()
   crearGrilla(N, M, origen, destino)
+	for (let i = 0; i < N; i++) {
+		let l = []
+		for (let j = 0; j < M; j++) {
+			l.push(pesoDefault)
+		}
+		pesos.push(l)
+	}
 	const selector = document.getElementById("select-algorithm")
 	for (let i = 0; i < algorithms.length; i++) {
 		const option = document.createElement("option")
@@ -28,8 +28,6 @@ window.addEventListener('load', () => {
 		option.innerText = algorithms[i];
 		selector.appendChild(option)
 	}
-  var endTime = performance.now()
-	console.log(`CREAR GRILLA : ${ (endTime- startTime) / 1000 }s`)
 })
 
 const grilla = document.getElementById('grilla')
@@ -71,6 +69,29 @@ grilla.addEventListener('contextmenu', (e) => {
 	}
 })
 
+function moveObject(element, objectId) {
+	if(!element) return
+	switch (objectId) {
+		case 'origen':
+			let o = document.getElementById(origen)
+			o.setAttribute('draggable', false)
+			cambiarCelda(o, "vacio")
+			cambiarCelda(element, "origen")
+			origen = element.id;
+			break;
+		case 'destino':
+			let d= document.getElementById(destino)
+			d.setAttribute('draggable', false)
+			cambiarCelda(d, "vacio")
+			cambiarCelda(element, "destino")
+			destino = element.id
+			break;
+		default:
+			break;
+	}
+	element.setAttribute('draggable', true)
+}
+
 grilla.addEventListener('dragstart', (e)=> {
   if(e.target.id == origen){
 		e.dataTransfer.setData('dragging', 'origen');
@@ -79,39 +100,38 @@ grilla.addEventListener('dragstart', (e)=> {
 	} else {
 		return
 	}
-	cambiarCelda(document.getElementById(e.target.id),"vacio")
 })
 
 
-// document.getElementById('grilla').addEventListener('dragenter', (e) => {
-	// e.preventDefault();
-	// if(e.target.id == destino || e.target.id == origen) return;
-// })
-
+grilla.addEventListener('dragenter', (e) => {
+	e.preventDefault();
+	e.target.classList.add("droppable")
+	// console.log("dragenter")
+})
 grilla.addEventListener('dragover', (e) => {
 	e.preventDefault();
+	// console.log("dragover")
+})
+grilla.addEventListener('dragleave', (e) => {
+	e.preventDefault();
+	e.target.classList.remove("droppable")
+	console.log("dragleave")
 })
 
 grilla.addEventListener('drop', (e) => {
+	console.log("DROP")
 	const dragging = e.dataTransfer.getData('dragging');
-	let iendo;
-	if(dragging == 'origen'){
-		iendo = document.getElementById(origen)
-		origen = e.target.id
-	} else if (dragging == 'destino')  {
-		iendo = document.getElementById(destino)
-		destino  = e.target.id
-	}
-	cambiarCelda(iendo, "vacio")
-	cambiarCelda(e.target,dragging)
+	moveObject(e.target, dragging)
 })
-
 grilla.addEventListener('dragend', (e) => {
-	cambiarCelda(document.getElementById(e.destino), "destino")
+	console.log("DRAGEND")
+	// e.preventDefault()
+	// cambiarCelda(document.getElementById(e.destino), "destino")
+
 })
 
 
-document.getElementById('start-algorithm').addEventListener('click', async () => {
+document.getElementById('start-algorithm').addEventListener('click', () => {
 	clearStylesGrilla(N, M, pesos, origen, destino)
 	const selector = document.getElementById("select-algorithm")
 	let resultado;

@@ -79,9 +79,6 @@ table {
 .destino::after {
 	content: url('../media/flag.svg')
 }
-[draggable="true"] {
-	/* display: none; */
-}
 
 .wall {
   background-color: var(--wall);
@@ -106,4 +103,8 @@ table {
 
 .pesado {
 	background-color: "brown";
+}
+
+.droppable {
+	border: 1px dashed red;
 }

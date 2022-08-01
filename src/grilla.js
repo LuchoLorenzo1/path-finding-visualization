@@ -12,7 +12,6 @@ export function crearGrilla(N,M,origen,destino) {
       td.classList.add('celda')
       td.classList.add('vacio')
       td.setAttribute('id', `${i}:${j}`)
-      td.setAttribute('draggable', true)
       td.appendChild(content)
       tr.appendChild(td)
     }
@@ -24,9 +23,8 @@ export function crearGrilla(N,M,origen,destino) {
 	let	d = document.getElementById(destino)
 	cambiarCelda(o, "origen")
 	cambiarCelda(d, "destino")
-	// let div = document.createElement('div')
-	// div.classList.add("target")
-	// d.appendChild(div)
+	o.setAttribute("draggable", true)
+	d.setAttribute("draggable", true)
 }
 
 export function clearStylesGrilla(N,M, pesos, origen, destino) {
@@ -49,10 +47,10 @@ export function clearStylesGrilla(N,M, pesos, origen, destino) {
   }
 	let	o = document.getElementById(origen)
 	let	d = document.getElementById(destino)
-	o.classList.remove()
-	d.classList.remove()
-	o.classList.add("origen")
-	d.classList.add("destino")
+	cambiarCelda(o, "origen")
+	cambiarCelda(d, "destino")
+	o.setAttribute("draggable", true)
+	d.setAttribute("draggable", true)
 }
 
 export function cambiarCelda(element, class_) {

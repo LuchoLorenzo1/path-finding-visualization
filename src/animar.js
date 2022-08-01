@@ -1,9 +1,9 @@
 import {cambiarCelda} from "./grilla.js"
-var speed = 1;
 
-async function animar(visitados, camino) {
+function animar(visitados, camino) {
+	let speed = 1;
 	let duration = 5;
-	let fill = "forwards"
+	// let fill = "forwards"
 	let timeout = 0;
 
 	for (let i = 1; i < visitados.length-1; i++) {
@@ -24,7 +24,6 @@ async function animar(visitados, camino) {
 	}
 
 	timeout += 250;
-	speed *= 2
 	for (let i = 1; i < camino.length; i++) {
 		timeout += speed;
 		let e = document.getElementById(camino[i])
