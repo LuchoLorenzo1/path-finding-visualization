@@ -4,7 +4,7 @@ import { crearGrilla, clearStylesGrilla, cambiarCelda } from './grilla.js'
 
 const pesoDefault = 1
 const algorithms = ["Dijkstra", "DFS", "BFS", "A*"]
-var N = 20
+var N = 5
 var M = 50
 var origen = `${Math.floor(N/2)}:2`
 var destino = `${Math.floor(N/2)}:${M-3}`
@@ -32,7 +32,9 @@ window.addEventListener('load', () => {
 	console.log(`CREAR GRILLA : ${ (endTime- startTime) / 1000 }s`)
 })
 
-document.getElementById('grilla').addEventListener('click', (e) => {
+const grilla = document.getElementById('grilla')
+
+grilla.addEventListener('click', (e) => {
   if (e.target.id == origen || e.target.id == destino) {
 			return;
 	}
@@ -55,7 +57,7 @@ document.getElementById('clean-grilla').addEventListener('click', () => {
 	}
 })
 
-document.getElementById('grilla').addEventListener('contextmenu', (e) => {
+grilla.addEventListener('contextmenu', (e) => {
 	e.preventDefault()
 	if (e.target.id == origen || e.target.id == destino) return
 
@@ -69,27 +71,28 @@ document.getElementById('grilla').addEventListener('contextmenu', (e) => {
 	}
 })
 
-document.getElementById('grilla').addEventListener('dragstart', (e)=> {
+grilla.addEventListener('dragstart', (e)=> {
   if(e.target.id == origen){
 		e.dataTransfer.setData('dragging', 'origen');
 	} else if(e.target.id == destino){
-		console.log(e.dataTransfer.setData)
 		e.dataTransfer.setData('dragging', 'destino');
+	} else {
+		return
 	}
-	// e.dataTransfer.setDragImage(e.target, window.outerWidth, window.outerHeight);
+	cambiarCelda(document.getElementById(e.target.id),"vacio")
 })
 
 
-document.getElementById('grilla').addEventListener('dragenter', (e) => {
-	e.preventDefault();
+// document.getElementById('grilla').addEventListener('dragenter', (e) => {
+	// e.preventDefault();
 	// if(e.target.id == destino || e.target.id == origen) return;
-})
+// })
 
-document.getElementById('grilla').addEventListener('dragover', (e) => {
+grilla.addEventListener('dragover', (e) => {
 	e.preventDefault();
 })
 
-document.getElementById('grilla').addEventListener('drop', (e) => {
+grilla.addEventListener('drop', (e) => {
 	const dragging = e.dataTransfer.getData('dragging');
 	let iendo;
 	if(dragging == 'origen'){
@@ -103,6 +106,10 @@ document.getElementById('grilla').addEventListener('drop', (e) => {
 	cambiarCelda(e.target,dragging)
 })
 
+grilla.addEventListener('dragend', (e) => {
+	cambiarCelda(document.getElementById(e.destino), "destino")
+})
+
 
 document.getElementById('start-algorithm').addEventListener('click', async () => {
 	clearStylesGrilla(N, M, pesos, origen, destino)
@@ -112,18 +119,19 @@ document.getElementById('start-algorithm').addEventListener('click', async () =>
 		case 0:
 			resultado = dijkstra(pesos, origen, destino)
 			break;
-		case 1:
-			resultado = dfs(pesos, origen, destino)
-			break;
-		case 2:
-			resultado = bfs(pesos, origen, destino)
-			break;
-		case 3:
-			resultado = aStar(pesos, origen, destino)
-			break;
-		default:
-			break;
+		// case 1:
+			// resultado = dfs(pesos, origen, destino)
+			// break;
+		// case 2:
+			// resultado = bfs(pesos, origen, destino)
+			// break;
+		// case 3:
+			// resultado = aStar(pesos, origen, destino)
+			// break;
+		// default:
+			// break;
 	}
   if (!resultado) return
   animar(resultado[0], resultado[1])
 })
+
