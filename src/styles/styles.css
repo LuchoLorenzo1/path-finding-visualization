@@ -5,6 +5,8 @@
 	--wall: black;
 	--visitados: orange;
 	--path: pink;
+	--w: 77px;
+	--h: 44px;
 }
 
 * {
@@ -62,8 +64,8 @@ table {
 .celda {
   border: 1px solid #000;
   /* border-radius: 50%; */
-  width: 77px;
-  height: 38.4px;
+  width: var(--w);
+  height: var(--h);
   text-align: center;
 }
 
@@ -73,6 +75,12 @@ table {
 
 .destino {
   background-color: var(--destino);
+}
+.destino::after {
+	content: url('../media/flag.svg')
+}
+[draggable="true"] {
+	/* display: none; */
 }
 
 .wall {
@@ -86,4 +94,16 @@ table {
 
 .path {
   background-color: var(--path);
+}
+
+.target {
+	position: absolute;
+  width: calc(var(--w)/2);
+  height: calc(var(--h)/2);
+	transform: translate(-25%,-50%);
+	background: black;
+}
+
+.pesado {
+	background-color: "brown";
 }

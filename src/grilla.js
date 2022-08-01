@@ -12,18 +12,21 @@ export function crearGrilla(N,M,origen,destino) {
       td.classList.add('celda')
       td.classList.add('vacio')
       td.setAttribute('id', `${i}:${j}`)
+      td.setAttribute('draggable', true)
       td.appendChild(content)
       tr.appendChild(td)
     }
     tr.classList.add('fila')
     grilla.appendChild(tr)
   }
+
 	let	o = document.getElementById(origen)
 	let	d = document.getElementById(destino)
-	o.classList.remove()
-	d.classList.remove()
-	o.classList.add("origen")
-	d.classList.add("destino")
+	cambiarCelda(o, "origen")
+	cambiarCelda(d, "destino")
+	// let div = document.createElement('div')
+	// div.classList.add("target")
+	// d.appendChild(div)
 }
 
 export function clearStylesGrilla(N,M, pesos, origen, destino) {

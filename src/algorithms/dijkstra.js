@@ -1,7 +1,7 @@
 function dijkstra(pesos, origen, destino) {
   const N = pesos.length
   const M = pesos[0].length
-  let startTimeDijkstra = performance.now()
+  // let startTimeDijkstra = performance.now()
 
   const grafo = new Map()
   for (let i = 0; i < N; i++) {
@@ -31,8 +31,8 @@ function dijkstra(pesos, origen, destino) {
 
     let adyacentes = [
       grafo.get(`${actx + 1}:${acty}`),
+			grafo.get(`${actx}:${acty + 1}`),
       grafo.get(`${actx - 1}:${acty}`),
-      grafo.get(`${actx}:${acty + 1}`),
       grafo.get(`${actx}:${acty - 1}`),
     ]
 
@@ -56,13 +56,8 @@ function dijkstra(pesos, origen, destino) {
     return NULL
   }
 
-  var endTimeDijkstra = performance.now()
-
-  alert(
-    `Dijkstra, time:${
-      (endTimeDijkstra - startTimeDijkstra) / 1000
-    }s, path length: ${dest.camino.length}, nodes visited: ${visitados.size} `
-  )
+  // var endTimeDijkstra = performance.now()
+  // alert( `Dijkstra, time:${ (endTimeDijkstra - startTimeDijkstra) / 1000 }s, path length: ${dest.camino.length}, nodes visited: ${visitados.size} `)
 
   return [ordenVisitas, [...dest.camino]]
 }
@@ -78,8 +73,8 @@ function minimo(visitados, grafo) {
 
     let adyacentes = [
       `${actx + 1}:${acty}`,
+			`${actx}:${acty + 1}`,
       `${actx - 1}:${acty}`,
-      `${actx}:${acty + 1}`,
       `${actx}:${acty - 1}`,
     ]
 
