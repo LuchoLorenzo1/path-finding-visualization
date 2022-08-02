@@ -1,18 +1,18 @@
-import animar from './animar.js'
 import dijkstra from './algorithms/dijkstra.js'
+import animar from './animar.js'
 import { crearGrilla, clearStylesGrilla, cambiarCelda } from './grilla.js'
 
 const pesoDefault = 1
 const algorithms = ['Dijkstra', 'DFS', 'BFS', 'A*']
-var N = 5
-var M = 20
-var origen = `${Math.floor(N / 2)}:2`
-var destino = `${Math.floor(N / 2)}:${M - 3}`
+var N;
+var M;
+var origen;
+var destino;
 var pesos = []
-var objetos = ['origen', 'destino']
+// var objetos = ['origen', 'destino']
 
 window.addEventListener('load', () => {
-  crearGrilla(N, M, origen, destino)
+  [N, M, origen, destino] = crearGrilla(origen, destino)
   for (let i = 0; i < N; i++) {
     let l = []
     for (let j = 0; j < M; j++) {
@@ -29,11 +29,24 @@ window.addEventListener('load', () => {
   }
 })
 
+window.addEventListener('resize', () => {
+  [N, M, origen, destino] = crearGrilla(origen, destino)
+  for (let i = 0; i < N; i++) {
+    let l = []
+    for (let j = 0; j < M; j++) {
+      l.push(pesoDefault)
+    }
+    pesos.push(l)
+  }
+  const selector = document.getElementById('select-algorithm')
+})
+
 const grilla = document.getElementById('grilla')
 
 let mousedown = false;
 grilla.addEventListener('mousedown', (e) => {
   if (e.target.id == origen || e.target.id == destino) return
+	// console.log(e)
 
 	mousedown = true;
   let [x, y] = e.target.id.split(':')
@@ -47,6 +60,7 @@ grilla.addEventListener('mouseover', (e) => {
   if (e.target.id == origen || e.target.id == destino) return
 	if(!mousedown)
 		return
+	console.log(e)
   let [x, y] = e.target.id.split(':')
 	pesos[+x][+y] = Infinity
 	cambiarCelda(e.target, 'wall')
@@ -99,6 +113,7 @@ function moveObject(element, objectId) {
 }
 
 grilla.addEventListener('dragstart', (e) => {
+	console.log("DRAGSTART")
   if (e.target.id == origen) {
     e.dataTransfer.setData('dragging', 'origen')
   } else if (e.target.id == destino) {
@@ -109,7 +124,7 @@ grilla.addEventListener('dragstart', (e) => {
 })
 grilla.addEventListener('dragenter', (e) => {
   e.preventDefault()
-	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall")) return
+	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
   e.target.classList.add('droppable')
 })
 grilla.addEventListener('dragover', (e) => {
@@ -120,15 +135,14 @@ grilla.addEventListener('dragleave', (e) => {
 	if(e.target.id == origen || e.target.id == destino) return
   e.target.classList.remove('droppable')
 })
-
 grilla.addEventListener('drop', (e) => {
-	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall")) return
+	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
   const dragging = e.dataTransfer.getData('dragging')
   e.target.classList.remove('droppable')
   moveObject(e.target, dragging)
 })
-grilla.addEventListener('dragend', (e) => {
-})
+// grilla.addEventListener('dragend', (e) => {
+// })
 
 document.getElementById('start-algorithm').addEventListener('click', () => {
   clearStylesGrilla(N, M, pesos, origen, destino)
@@ -152,4 +166,26 @@ document.getElementById('start-algorithm').addEventListener('click', () => {
   }
   if (!resultado) return
   animar(resultado[0], resultado[1])
+})
+
+
+
+grilla.addEventListener('touchstart', (e) => {
+	console.log("touchstart", e.target)
+})
+grilla.addEventListener('touchmove', (e) => {
+  // e.preventDefault()
+	// if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
+  // e.target.classList.add('droppable')
+	console.log("touchmove", e)
+})
+grilla.addEventListener('touchcancel', (e) => {
+	console.log("touchmove", e.target)
+  // e.preventDefault()
+	// if(e.target.id == origen || e.target.id == destino) return
+  // e.target.classList.remove('droppable')
+})
+grilla.addEventListener('touchend', (e) => {
+	console.log("touchmove", e.target)
+	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
 })

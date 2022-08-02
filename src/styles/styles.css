@@ -6,7 +6,7 @@
 	--visitados: orange;
 	--path: pink;
 	--w: 40px;
-	--h: 20px;
+	--h: 40px;
 }
 
 * {
@@ -21,14 +21,9 @@
   user-select: none;
 }
 
-table {
-  display: inline-block;
-  border-spacing: 0;
-}
-
-
 .container {
   width: 100vw;
+  height: 70vh;
 }
 
 .boton {
@@ -59,52 +54,4 @@ table {
 	/* flex-direction: row; */
   justify-content: space-around;
   align-items: center;
-}
-
-.celda {
-  border: 1px solid #000;
-  /* border-radius: 50%; */
-  width: var(--w);
-  height: var(--h);
-  text-align: center;
-}
-
-.origen {
-  background-color: var(--origen);
-}
-
-.destino {
-  background-color: var(--destino);
-}
-.destino::after {
-	content: url('../media/flag.svg')
-}
-
-.wall {
-  background-color: var(--wall);
-}
-
-.visitados {
-  background-color: var(--visitados);
-}
-
-
-.path {
-  background-color: var(--path);
-}
-
-.target {
-	position: absolute;
-  width: calc(var(--w)/2);
-  height: calc(var(--h)/2);
-	transform: translate(-25%,-50%);
-	background: black;
-}
-
-.pesado {
-	background-color: "brown";
-}
-
-.droppable {
-	border: 1px dashed red;
 }

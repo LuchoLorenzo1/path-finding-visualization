@@ -1,0 +1,51 @@
+table {
+  border-spacing: 0;
+  /* width: 100%; */
+  /* height: fit-content; */
+}
+
+.celda {
+  position: relative;
+  border: 1px solid #000;
+  /* aspect-ratio: 1/1; */
+  /* width: 30px; */
+  /* height: 30px; */
+  /* width: clamp(20px, 20px, 30px); */
+  /* height: clamp(20px, 20px, 30px); */
+  /* padding-bottom: 3%; */
+}
+
+.origen {
+  background-color: var(--origen);
+}
+
+.destino {
+  background-color: var(--destino);
+}
+/* .destino::after { */
+/* content: url('../media/flag.svg') */
+/* } */
+
+.wall {
+  background-color: var(--wall);
+}
+
+.visitados {
+  background-color: var(--visitados);
+}
+
+.path {
+  background-color: var(--path);
+}
+
+.pesado {
+  background-color: 'brown';
+}
+
+[draggable] {
+	touch-action: none;
+}
+
+.droppable {
+  border: 1px dashed red;
+}

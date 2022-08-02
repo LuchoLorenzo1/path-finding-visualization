@@ -1,7 +1,17 @@
-export function crearGrilla(N,M,origen,destino) {
-  const grilla = document.getElementById('grilla')
-  grilla.innerHTML = ''
+const W = 30
 
+export function crearGrilla(origen,destino) {
+  const grilla = document.getElementById('grilla')
+	let viewportWidth = window.innerWidth;
+	let viewportHeight = window.innerHeight;
+
+	let N = Math.floor((viewportHeight*0.7)/W)
+	let M = Math.floor(viewportWidth/W)
+	var origen = `${Math.floor(N / 2)}:2`
+	var destino = `${Math.floor(N / 2)}:${M - 3}`
+	console.log(N, M)
+
+  grilla.innerHTML = ''
   for (let i = 0; i < N; i++) {
     const tr = document.createElement('tr')
 
@@ -12,6 +22,8 @@ export function crearGrilla(N,M,origen,destino) {
       td.classList.add('celda')
       td.classList.add('vacio')
       td.setAttribute('id', `${i}:${j}`)
+			td.style.width = `${W}px`
+			td.style.height = `${W}px`
       td.appendChild(content)
       tr.appendChild(td)
     }
@@ -25,6 +37,7 @@ export function crearGrilla(N,M,origen,destino) {
 	cambiarCelda(d, "destino")
 	o.setAttribute("draggable", true)
 	d.setAttribute("draggable", true)
+	return [N, M, origen, destino]
 }
 
 export function clearStylesGrilla(N,M, pesos, origen, destino) {
@@ -32,17 +45,7 @@ export function clearStylesGrilla(N,M, pesos, origen, destino) {
     for (let j = 0; j < M; j++) {
       const td = document.getElementById(`${i}:${j}`)
 			let nPeso = pesos[i][j]
-			td.removeAttribute("style")
-
-			if (nPeso == Infinity) {
-				td.classList.remove()
-				td.classList.add("wall")
-			} else if (nPeso > 1) {
-				cambiarCelda(td, "pesado")
-				td.style.background = `rgb(${200 - 10 * nPeso},${ 200 - 10 * nPeso },${100})`
-			} else {
-				cambiarCelda(td, "vacio")
-			}
+			if (nPeso == 1) cambiarCelda(td, "vacio")
     }
   }
 	let	o = document.getElementById(origen)
@@ -54,6 +57,7 @@ export function clearStylesGrilla(N,M, pesos, origen, destino) {
 }
 
 export function cambiarCelda(element, class_) {
+	if(!element) return
   element.classList.remove(element.classList[1])
   element.classList.add(class_)
 }
