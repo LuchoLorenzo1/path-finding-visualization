@@ -9,6 +9,8 @@ var M;
 var origen;
 var destino;
 var pesos = []
+window.animating = false
+
 // var objetos = ['origen', 'destino']
 
 window.addEventListener('load', () => {
@@ -37,7 +39,7 @@ const grilla = document.getElementById('grilla')
 
 let mousedown = false;
 grilla.addEventListener('mousedown', (e) => {
-  if (e.target.id == origen || e.target.id == destino) return
+  if (window.animating || e.target.id == origen || e.target.id == destino) return
 	// console.log(e)
 
 	mousedown = true;
@@ -49,7 +51,7 @@ window.addEventListener('mouseup', () => {
 	mousedown = false;
 })
 grilla.addEventListener('mouseover', (e) => {
-  if (e.target.id == origen || e.target.id == destino) return
+  if (window.animating || e.target.id == origen || e.target.id == destino) return
 	if(!mousedown)
 		return
   let [x, y] = e.target.id.split(':')
@@ -74,6 +76,7 @@ document.getElementById('clean-grilla').addEventListener('click', () => {
 
 grilla.addEventListener('contextmenu', (e) => {
   e.preventDefault()
+	if(window.animating) return;
   if (e.target.id == origen || e.target.id == destino) return
   let [x, y] = e.target.id.split(':')
 	pesos[+x][+y] = pesoDefault
@@ -104,6 +107,7 @@ function moveObject(element, objectId) {
 }
 
 grilla.addEventListener('dragstart', (e) => {
+	if(window.animating) return;
   if (e.target.id == origen) {
     e.dataTransfer.setData('dragging', 'origen')
   } else if (e.target.id == destino) {
@@ -114,19 +118,21 @@ grilla.addEventListener('dragstart', (e) => {
 })
 grilla.addEventListener('dragenter', (e) => {
   e.preventDefault()
-	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
+	if(window.animating || e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
   e.target.classList.add('droppable')
 })
 grilla.addEventListener('dragover', (e) => {
   e.preventDefault()
+	if(window.animating) return
 })
+
 grilla.addEventListener('dragleave', (e) => {
   e.preventDefault()
 	if(e.target.id == origen || e.target.id == destino) return
   e.target.classList.remove('droppable')
 })
 grilla.addEventListener('drop', (e) => {
-	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
+	if(window.animating || e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
   const dragging = e.dataTransfer.getData('dragging')
   e.target.classList.remove('droppable')
   moveObject(e.target, dragging)
@@ -135,6 +141,8 @@ grilla.addEventListener('drop', (e) => {
 // })
 
 document.getElementById('start-algorithm').addEventListener('click', () => {
+	if(window.animating) return
+	window.animating = true
   clearStylesGrilla(N, M, pesos, origen, destino)
   const selector = document.getElementById('select-algorithm')
   let resultado

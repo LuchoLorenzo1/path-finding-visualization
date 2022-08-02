@@ -1,4 +1,4 @@
-const M = 40
+const M = 75
 
 export function crearGrilla(origen,destino) {
   const grilla = document.getElementById('grilla')
