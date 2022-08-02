@@ -1,8 +1,8 @@
 import {cambiarCelda} from "./grilla.js"
 
 function animar(visitados, camino) {
-	let speed = 1;
-	let duration = 5;
+	let speed = 10;
+	let duration = 50;
 	// let fill = "forwards"
 	let timeout = 0;
 

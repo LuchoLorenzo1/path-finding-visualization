@@ -5,7 +5,7 @@ import { crearGrilla, clearStylesGrilla, cambiarCelda } from './grilla.js'
 const pesoDefault = 1
 const algorithms = ['Dijkstra', 'DFS', 'BFS', 'A*']
 var N = 5
-var M = 50
+var M = 20
 var origen = `${Math.floor(N / 2)}:2`
 var destino = `${Math.floor(N / 2)}:${M - 3}`
 var pesos = []
@@ -31,17 +31,29 @@ window.addEventListener('load', () => {
 
 const grilla = document.getElementById('grilla')
 
-grilla.addEventListener('click', (e) => {
-  if (e.target.id == origen || e.target.id == destino) {
-    return
-  }
+let mousedown = false;
+grilla.addEventListener('mousedown', (e) => {
+  if (e.target.id == origen || e.target.id == destino) return
+
+	mousedown = true;
   let [x, y] = e.target.id.split(':')
-  let nPeso = ++pesos[+x][+y]
-  e.target.innerText = nPeso
-  cambiarCelda(e.target, 'pesado')
+	pesos[+x][+y] = Infinity
+	cambiarCelda(e.target, 'wall')
+})
+window.addEventListener('mouseup', () => {
+	mousedown = false;
+})
+grilla.addEventListener('mouseover', (e) => {
+  if (e.target.id == origen || e.target.id == destino) return
+	if(!mousedown)
+		return
+  let [x, y] = e.target.id.split(':')
+	pesos[+x][+y] = Infinity
+	cambiarCelda(e.target, 'wall')
+})
+grilla.addEventListener('mouseout', () => {
 })
 
-grilla.addEventListener('')
 
 document.getElementById('clean-grilla').addEventListener('click', () => {
   crearGrilla(N, M, origen, destino)
@@ -58,15 +70,9 @@ document.getElementById('clean-grilla').addEventListener('click', () => {
 grilla.addEventListener('contextmenu', (e) => {
   e.preventDefault()
   if (e.target.id == origen || e.target.id == destino) return
-
   let [x, y] = e.target.id.split(':')
-  if (pesos[+x][+y] != Infinity) {
-    pesos[+x][+y] = Infinity
-    cambiarCelda(e.target, 'wall')
-  } else {
-    pesos[+x][+y] = pesoDefault
-    cambiarCelda(e.target, 'vacio')
-  }
+	pesos[+x][+y] = pesoDefault
+	cambiarCelda(e.target, 'vacio')
 })
 
 function moveObject(element, objectId) {
@@ -101,31 +107,27 @@ grilla.addEventListener('dragstart', (e) => {
     return
   }
 })
-
 grilla.addEventListener('dragenter', (e) => {
   e.preventDefault()
+	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall")) return
   e.target.classList.add('droppable')
-  // console.log("dragenter")
 })
 grilla.addEventListener('dragover', (e) => {
   e.preventDefault()
-  // console.log("dragover")
 })
 grilla.addEventListener('dragleave', (e) => {
   e.preventDefault()
+	if(e.target.id == origen || e.target.id == destino) return
   e.target.classList.remove('droppable')
-  console.log('dragleave')
 })
 
 grilla.addEventListener('drop', (e) => {
-  console.log('DROP')
+	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall")) return
   const dragging = e.dataTransfer.getData('dragging')
+  e.target.classList.remove('droppable')
   moveObject(e.target, dragging)
 })
 grilla.addEventListener('dragend', (e) => {
-  console.log('DRAGEND')
-  // e.preventDefault()
-  // cambiarCelda(document.getElementById(e.destino), "destino")
 })
 
 document.getElementById('start-algorithm').addEventListener('click', () => {
