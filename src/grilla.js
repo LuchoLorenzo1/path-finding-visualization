@@ -1,12 +1,13 @@
-const W = 30
+const M = 40
 
 export function crearGrilla(origen,destino) {
   const grilla = document.getElementById('grilla')
 	let viewportWidth = window.innerWidth;
 	let viewportHeight = window.innerHeight;
 
-	let N = Math.floor((viewportHeight*0.7)/W)
-	let M = Math.floor(viewportWidth/W)
+	let W = viewportWidth/M
+	const N = Math.floor((viewportHeight*0.7)/W)
+
 	var origen = `${Math.floor(N / 2)}:2`
 	var destino = `${Math.floor(N / 2)}:${M - 3}`
 	console.log(N, M)
@@ -61,3 +62,29 @@ export function cambiarCelda(element, class_) {
   element.classList.remove(element.classList[1])
   element.classList.add(class_)
 }
+
+export function resizeGrilla(origen, destino, pesos, Nactual) {
+  const grilla = document.getElementById('grilla')
+	const viewportWidth = window.innerWidth;
+	const viewportHeight = window.innerHeight;
+
+	let W = viewportWidth/M
+	const N = Math.floor((viewportHeight*0.7)/W)
+
+	if(Nactual > N){
+		console.log("reducir", Nactual, N)
+		for (let i = Nactual; i > N; i--) {
+			grilla.removeChild(grilla.childNodes[i])
+		}
+	}
+
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < M; j++) {
+      const td = document.getElementById(`${i}:${j}`)
+			td.style.width = `${W}px`
+			td.style.height = `${W}px`
+    }
+  }
+}
+
+

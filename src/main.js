@@ -1,6 +1,6 @@
 import dijkstra from './algorithms/dijkstra.js'
 import animar from './animar.js'
-import { crearGrilla, clearStylesGrilla, cambiarCelda } from './grilla.js'
+import { crearGrilla, clearStylesGrilla, resizeGrilla, cambiarCelda } from './grilla.js'
 
 const pesoDefault = 1
 const algorithms = ['Dijkstra', 'DFS', 'BFS', 'A*']
@@ -30,15 +30,7 @@ window.addEventListener('load', () => {
 })
 
 window.addEventListener('resize', () => {
-  [N, M, origen, destino] = crearGrilla(origen, destino)
-  for (let i = 0; i < N; i++) {
-    let l = []
-    for (let j = 0; j < M; j++) {
-      l.push(pesoDefault)
-    }
-    pesos.push(l)
-  }
-  const selector = document.getElementById('select-algorithm')
+  resizeGrilla(pesos,origen, destino, N)
 })
 
 const grilla = document.getElementById('grilla')
@@ -60,7 +52,6 @@ grilla.addEventListener('mouseover', (e) => {
   if (e.target.id == origen || e.target.id == destino) return
 	if(!mousedown)
 		return
-	console.log(e)
   let [x, y] = e.target.id.split(':')
 	pesos[+x][+y] = Infinity
 	cambiarCelda(e.target, 'wall')
@@ -113,7 +104,6 @@ function moveObject(element, objectId) {
 }
 
 grilla.addEventListener('dragstart', (e) => {
-	console.log("DRAGSTART")
   if (e.target.id == origen) {
     e.dataTransfer.setData('dragging', 'origen')
   } else if (e.target.id == destino) {
@@ -171,21 +161,17 @@ document.getElementById('start-algorithm').addEventListener('click', () => {
 
 
 grilla.addEventListener('touchstart', (e) => {
-	console.log("touchstart", e.target)
 })
 grilla.addEventListener('touchmove', (e) => {
   // e.preventDefault()
 	// if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
   // e.target.classList.add('droppable')
-	console.log("touchmove", e)
 })
 grilla.addEventListener('touchcancel', (e) => {
-	console.log("touchmove", e.target)
   // e.preventDefault()
 	// if(e.target.id == origen || e.target.id == destino) return
   // e.target.classList.remove('droppable')
 })
 grilla.addEventListener('touchend', (e) => {
-	console.log("touchmove", e.target)
 	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
 })
