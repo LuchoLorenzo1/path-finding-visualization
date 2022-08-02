@@ -159,19 +159,18 @@ document.getElementById('start-algorithm').addEventListener('click', () => {
 })
 
 
-
-grilla.addEventListener('touchstart', (e) => {
-})
-grilla.addEventListener('touchmove', (e) => {
-  // e.preventDefault()
-	// if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
-  // e.target.classList.add('droppable')
-})
-grilla.addEventListener('touchcancel', (e) => {
-  // e.preventDefault()
-	// if(e.target.id == origen || e.target.id == destino) return
-  // e.target.classList.remove('droppable')
-})
-grilla.addEventListener('touchend', (e) => {
-	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
-})
+// grilla.addEventListener('touchstart', (e) => {
+// })
+// grilla.addEventListener('touchmove', (e) => {
+//   // e.preventDefault()
+// 	// if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
+//   // e.target.classList.add('droppable')
+// })
+// grilla.addEventListener('touchcancel', (e) => {
+//   // e.preventDefault()
+// 	// if(e.target.id == origen || e.target.id == destino) return
+//   // e.target.classList.remove('droppable')
+// })
+// grilla.addEventListener('touchend', (e) => {
+// 	if(e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
+// })
