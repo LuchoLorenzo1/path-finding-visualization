@@ -53,7 +53,7 @@ function dijkstra(pesos, origen, destino) {
   let dest = grafo.get(destino)
   if (dest.camino.length == 0) {
     alert('es imposible llegar a destino')
-    return NULL
+    return null
   }
 
   // var endTimeDijkstra = performance.now()
