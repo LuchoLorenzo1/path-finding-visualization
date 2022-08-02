@@ -1,18 +1,13 @@
 table {
   border-spacing: 0;
-  /* width: 100%; */
-  /* height: fit-content; */
+	/* margin: 5px; */
+	/* height: 70vh; */
+	/* max-height: 70vh; */
 }
 
 .celda {
   position: relative;
   border: 1px solid #000;
-  /* aspect-ratio: 1/1; */
-  /* width: 30px; */
-  /* height: 30px; */
-  /* width: clamp(20px, 20px, 30px); */
-  /* height: clamp(20px, 20px, 30px); */
-  /* padding-bottom: 3%; */
 }
 
 .origen {
