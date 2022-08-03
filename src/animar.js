@@ -1,6 +1,6 @@
 import {cambiarCelda} from "./grilla.js"
 
-function animar(visitados, camino) {
+export default function animar(visitados, camino) {
 	let speed = 1;
 	let duration = 1;
 	// let fill = "forwards"
@@ -42,7 +42,4 @@ function animar(visitados, camino) {
 			window.animating = false
 		})
 	}
-
 }
-
-export default animar;
