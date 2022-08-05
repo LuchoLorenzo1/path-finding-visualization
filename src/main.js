@@ -142,6 +142,8 @@ grilla.addEventListener('drop', (e) => {
   const dragging = e.dataTransfer.getData('dragging')
   e.target.classList.remove('droppable')
   moveObject(e.target, dragging)
+	if(dragging == 'origen')
+		startAlgorithm()
 })
 // grilla.addEventListener('dragend', (e) => {
 // })
