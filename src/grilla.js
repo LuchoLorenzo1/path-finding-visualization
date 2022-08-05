@@ -12,7 +12,6 @@ export function crearGrilla(origen,destino) {
 
 	var origen = `${Math.floor(N / 2)}:2`
 	var destino = `${Math.floor(N / 2)}:${M - 3}`
-	console.log(N, M)
 
   grilla.innerHTML = ''
   for (let i = 0; i < N; i++) {

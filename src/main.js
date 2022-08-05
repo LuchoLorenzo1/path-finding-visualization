@@ -1,3 +1,10 @@
+// TODO:
+// * Create layout and config menu
+// * Draging objects after algorithm finished.
+// * A*, dfs, bfs
+// * fix clean bug
+
+
 import dijkstra from './algorithms/dijkstra.js'
 import animar from './animar.js'
 import { crearGrilla, clearStylesGrilla, resizeGrilla, cambiarCelda } from './grilla.js'
@@ -40,7 +47,6 @@ const grilla = document.getElementById('grilla')
 let mousedown = false;
 grilla.addEventListener('mousedown', (e) => {
   if (window.animating || e.target.id == origen || e.target.id == destino) return
-	// console.log(e)
 
 	mousedown = true;
   let [x, y] = e.target.id.split(':')
