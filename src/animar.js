@@ -39,6 +39,7 @@ export default function animar(visitados, camino) {
 		a.finished.then(() => {
 			cambiarCelda(e, "path")
 			window.animating = false
+			window.isClean = false
 		})
 	}
 }

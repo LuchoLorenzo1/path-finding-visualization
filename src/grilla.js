@@ -80,4 +80,21 @@ export function resizeGrilla() {
 	})
 }
 
+export function cleanGrilla() {
+	document.getElementById("grilla").childNodes.forEach((fila)=>{
+		fila.childNodes.forEach((celda)=>{
+			if(!celda.classList.contains("wall"))
+				cambiarCelda(celda, "vacio")
+		})
+	})
+	setObjetos()
+}
 
+function setObjetos(){
+	let	o = document.getElementById(origen)
+	let	d = document.getElementById(destino)
+	cambiarCelda(o, "origen")
+	cambiarCelda(d, "destino")
+	o.setAttribute("draggable", true)
+	d.setAttribute("draggable", true)
+}

@@ -1,27 +1,36 @@
 // TODO:
 // * Create layout and config menu
-// * Draging objects after algorithm finished.
+// * Draging objects after algorithm finished. (partly done)
 // * A*, dfs, bfs
 // * fix clean bug
-
+// * add option for adding weighted cells
+// * terrain (weighted grass, water, sand, etc.) and recursive maze generator
+// * improve keyframes animation
 
 import dijkstra from './algorithms/dijkstra.js'
 import animar from './animar.js'
-import { crearGrilla, clearStylesGrilla, resizeGrilla, cambiarCelda } from './grilla.js'
+import {
+  crearGrilla,
+  clearStylesGrilla,
+  // resizeGrilla,
+  cambiarCelda,
+  cleanGrilla,
+} from './grilla.js'
 
 const pesoDefault = 1
-const algorithms = ['Dijkstra', 'DFS', 'BFS', 'A*']
-var N;
-var M;
-var origen;
-var destino;
+const algorithms = new Map([['Dijkstra', dijkstra]])
+var N
+var M
+window.origen = undefined;
+window.destino = undefined;
 var pesos = []
 window.animating = false
+window.isClean = true
 
 // var objetos = ['origen', 'destino']
 
 window.addEventListener('load', () => {
-  [N, M, origen, destino] = crearGrilla(origen, destino)
+  ;[N, M, origen, destino] = crearGrilla(origen, destino)
   for (let i = 0; i < N; i++) {
     let l = []
     for (let j = 0; j < M; j++) {
@@ -30,43 +39,46 @@ window.addEventListener('load', () => {
     pesos.push(l)
   }
   const selector = document.getElementById('select-algorithm')
-  for (let i = 0; i < algorithms.length; i++) {
+	algorithms.forEach((_,key) => {
     const option = document.createElement('option')
-    option.value = i
-    option.innerText = algorithms[i]
+    option.value = key
+    option.innerText = key
     selector.appendChild(option)
-  }
+	});
 })
 
-window.addEventListener('resize', () => {
-  resizeGrilla(pesos,origen, destino, N)
-})
+// window.addEventListener('resize', () => {
+  // resizeGrilla(pesos, origen, destino, N)
+// })
 
 const grilla = document.getElementById('grilla')
 
-let mousedown = false;
+let mousedown = false
 grilla.addEventListener('mousedown', (e) => {
-  if (window.animating || e.target.id == origen || e.target.id == destino) return
+  if (window.animating || e.target.id == origen || e.target.id == destino)
+    return
 
-	mousedown = true;
+	if(!window.isClean){
+		cleanGrilla()
+	}
+
+  mousedown = true
   let [x, y] = e.target.id.split(':')
-	pesos[+x][+y] = Infinity
-	cambiarCelda(e.target, 'wall')
+  pesos[+x][+y] = Infinity
+  cambiarCelda(e.target, 'wall')
 })
 window.addEventListener('mouseup', () => {
-	mousedown = false;
+  mousedown = false
 })
 grilla.addEventListener('mouseover', (e) => {
-  if (window.animating || e.target.id == origen || e.target.id == destino) return
-	if(!mousedown)
-		return
+  if (window.animating || e.target.id == origen || e.target.id == destino)
+    return
+  if (!mousedown) return
   let [x, y] = e.target.id.split(':')
-	pesos[+x][+y] = Infinity
-	cambiarCelda(e.target, 'wall')
+  pesos[+x][+y] = Infinity
+  cambiarCelda(e.target, 'wall')
 })
-grilla.addEventListener('mouseout', () => {
-})
-
+grilla.addEventListener('mouseout', () => {})
 
 document.getElementById('clean-grilla').addEventListener('click', () => {
   crearGrilla(N, M, origen, destino)
@@ -78,15 +90,17 @@ document.getElementById('clean-grilla').addEventListener('click', () => {
     }
     pesos.push(l)
   }
+
+	window.isClean = true;
 })
 
 grilla.addEventListener('contextmenu', (e) => {
   e.preventDefault()
-	if(window.animating) return;
+  if (window.animating) return
   if (e.target.id == origen || e.target.id == destino) return
   let [x, y] = e.target.id.split(':')
-	pesos[+x][+y] = pesoDefault
-	cambiarCelda(e.target, 'vacio')
+  pesos[+x][+y] = pesoDefault
+  cambiarCelda(e.target, 'vacio')
 })
 
 function moveObject(element, objectId) {
@@ -113,7 +127,7 @@ function moveObject(element, objectId) {
 }
 
 grilla.addEventListener('dragstart', (e) => {
-	if(window.animating) return;
+  if (window.animating) return
   if (e.target.id == origen) {
     e.dataTransfer.setData('dragging', 'origen')
   } else if (e.target.id == destino) {
@@ -124,56 +138,65 @@ grilla.addEventListener('dragstart', (e) => {
 })
 grilla.addEventListener('dragenter', (e) => {
   e.preventDefault()
-	if(window.animating || e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
+  if (
+    window.animating ||
+    e.target.id == origen ||
+    e.target.id == destino ||
+    e.target.classList.contains('wall') ||
+    e.target.nodeName != 'TD'
+  )
+    return
   e.target.classList.add('droppable')
 })
 grilla.addEventListener('dragover', (e) => {
   e.preventDefault()
-	if(window.animating) return
+  if (window.animating) return
 })
 
 grilla.addEventListener('dragleave', (e) => {
   e.preventDefault()
-	if(e.target.id == origen || e.target.id == destino) return
+  if (e.target.id == origen || e.target.id == destino) return
   e.target.classList.remove('droppable')
 })
 grilla.addEventListener('drop', (e) => {
-	if(window.animating || e.target.id == origen || e.target.id == destino || e.target.classList.contains("wall") || e.target.nodeName != "TD") return
+  if (
+    window.animating ||
+    e.target.id == origen ||
+    e.target.id == destino ||
+    e.target.classList.contains('wall') ||
+    e.target.nodeName != 'TD'
+  )
+    return
   const dragging = e.dataTransfer.getData('dragging')
+
+	console.log(dragging)
   e.target.classList.remove('droppable')
   moveObject(e.target, dragging)
-	if(dragging == 'origen')
+	if(dragging == 'origen' && !isClean)
 		startAlgorithm()
 })
 // grilla.addEventListener('dragend', (e) => {
 // })
 
 document.getElementById('start-algorithm').addEventListener('click', () => {
-	if(window.animating) return
-	window.animating = true
-  clearStylesGrilla(N, M, pesos, origen, destino)
-  const selector = document.getElementById('select-algorithm')
-  let resultado
-  switch (+selector.value) {
-    case 0:
-      resultado = dijkstra(pesos, origen, destino)
-      break
-    // case 1:
-    // resultado = dfs(pesos, origen, destino)
-    // break;
-    // case 2:
-    // resultado = bfs(pesos, origen, destino)
-    // break;
-    // case 3:
-    // resultado = aStar(pesos, origen, destino)
-    // break;
-    // default:
-    // break;
-  }
-  if (!resultado) return
-  animar(resultado[0], resultado[1])
+	startAlgorithm();
 })
 
+function startAlgorithm(){
+	if (window.animating) return
+
+	window.animating = true
+	clearStylesGrilla(N, M, pesos, origen, destino)
+  const selector = document.getElementById('select-algorithm')
+  const resultado =  algorithms.get(selector.value)(pesos, origen, destino)
+
+  if (!resultado) {
+    window.animating = false
+    return
+  }
+
+  animar(resultado[0], resultado[1])
+}
 
 // grilla.addEventListener('touchstart', (e) => {
 // })
