@@ -11,10 +11,9 @@ import dijkstra from './algorithms/dijkstra.js'
 import animar from './animar.js'
 import {
   crearGrilla,
-  clearStylesGrilla,
   // resizeGrilla,
   cambiarCelda,
-  cleanGrilla,
+  cleanGrid,
 } from './grilla.js'
 
 const pesoDefault = 1
@@ -59,7 +58,7 @@ grilla.addEventListener('mousedown', (e) => {
     return
 
 	if(!window.isClean){
-		cleanGrilla()
+		cleanGrid()
 	}
 
   mousedown = true
@@ -81,7 +80,8 @@ grilla.addEventListener('mouseover', (e) => {
 grilla.addEventListener('mouseout', () => {})
 
 document.getElementById('clean-grilla').addEventListener('click', () => {
-  crearGrilla(N, M, origen, destino)
+	if(window.animating) return
+  cleanGrid(true)
   pesos = []
   for (let i = 0; i < N; i++) {
     let l = []
@@ -184,9 +184,9 @@ document.getElementById('start-algorithm').addEventListener('click', () => {
 
 function startAlgorithm(){
 	if (window.animating) return
-
 	window.animating = true
-	clearStylesGrilla(N, M, pesos, origen, destino)
+	if(!window.isClean)
+		cleanGrid()
   const selector = document.getElementById('select-algorithm')
   const resultado =  algorithms.get(selector.value)(pesos, origen, destino)
 

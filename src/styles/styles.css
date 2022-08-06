@@ -3,10 +3,9 @@
 	--origen: green;
 	--destino: red;
 	--wall: black;
-	--visitados: orange;
+	--visitados: #345EA8;
+	--previsitados: #EEDBCB;
 	--path: pink;
-	--w: 40px;
-	--h: 40px;
 }
 
 * {
@@ -22,8 +21,8 @@
 }
 
 .container {
-  /* width: 100vw; */
-  /* height: 70vh; */
+  width: 100vw;
+  height: 70vh;
 }
 
 .boton {
