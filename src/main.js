@@ -2,7 +2,6 @@
 // * Create layout and config menu
 // * Draging objects after algorithm finished. (partly done)
 // * A*, dfs, bfs
-// * fix clean bug
 // * add option for adding weighted cells
 // * terrain (weighted grass, water, sand, etc.) and recursive maze generator
 // * improve keyframes animation
@@ -18,17 +17,23 @@ import {
 
 const pesoDefault = 1
 const algorithms = new Map([['Dijkstra', dijkstra]])
-var N
-var M
+
+window.N = 0;
+window.M = 0;
 window.origen = undefined;
 window.destino = undefined;
 var pesos = []
 window.animating = false
 window.isClean = true
 
+export const appState = {
+	menem: 0
+}
+
 // var objetos = ['origen', 'destino']
 
 window.addEventListener('load', () => {
+	console.log(appState)
   ;[N, M, origen, destino] = crearGrilla(origen, destino)
   for (let i = 0; i < N; i++) {
     let l = []
@@ -65,11 +70,13 @@ grilla.addEventListener('mousedown', (e) => {
   let [x, y] = e.target.id.split(':')
   pesos[+x][+y] = Infinity
   cambiarCelda(e.target, 'wall')
+	appState.menem++;
 })
 window.addEventListener('mouseup', () => {
   mousedown = false
 })
 grilla.addEventListener('mouseover', (e) => {
+	console.log(appState.menem)
   if (window.animating || e.target.id == origen || e.target.id == destino)
     return
   if (!mousedown) return
@@ -77,7 +84,6 @@ grilla.addEventListener('mouseover', (e) => {
   pesos[+x][+y] = Infinity
   cambiarCelda(e.target, 'wall')
 })
-grilla.addEventListener('mouseout', () => {})
 
 document.getElementById('clean-grilla').addEventListener('click', () => {
 	if(window.animating) return
@@ -169,7 +175,6 @@ grilla.addEventListener('drop', (e) => {
     return
   const dragging = e.dataTransfer.getData('dragging')
 
-	console.log(dragging)
   e.target.classList.remove('droppable')
   moveObject(e.target, dragging)
 	if(dragging == 'origen' && !isClean)

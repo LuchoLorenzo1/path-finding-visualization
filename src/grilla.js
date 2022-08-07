@@ -64,7 +64,10 @@ export function resizeGrilla() {
 	})
 }
 
+import {appState} from './main.js'
 export function cleanGrid(cleanAll) {
+	appState.menem++
+	console.log(appState)
 	document.getElementById("grilla").childNodes.forEach((fila)=>{
 		fila.childNodes.forEach((celda)=>{
 			if(cleanAll || !celda.classList.contains("wall"))
