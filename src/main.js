@@ -26,14 +26,9 @@ var pesos = []
 window.animating = false
 window.isClean = true
 
-export const appState = {
-	menem: 0
-}
-
 // var objetos = ['origen', 'destino']
 
 window.addEventListener('load', () => {
-	console.log(appState)
   ;[N, M, origen, destino] = crearGrilla(origen, destino)
   for (let i = 0; i < N; i++) {
     let l = []
@@ -70,13 +65,11 @@ grilla.addEventListener('mousedown', (e) => {
   let [x, y] = e.target.id.split(':')
   pesos[+x][+y] = Infinity
   cambiarCelda(e.target, 'wall')
-	appState.menem++;
 })
 window.addEventListener('mouseup', () => {
   mousedown = false
 })
 grilla.addEventListener('mouseover', (e) => {
-	console.log(appState.menem)
   if (window.animating || e.target.id == origen || e.target.id == destino)
     return
   if (!mousedown) return

@@ -14,7 +14,7 @@ export function crearGrilla(origen,destino) {
 	let W = viewportWidth/M
 	if(W < 20)
 		W = 20
-	const N = Math.floor((viewportHeight*0.7)/W)
+	const N = Math.floor((viewportHeight*0.8)/W)
 
 	var origen = `${Math.floor(N / 2)}:2`
 	var destino = `${Math.floor(N / 2)}:${M - 3}`
@@ -64,10 +64,7 @@ export function resizeGrilla() {
 	})
 }
 
-import {appState} from './main.js'
 export function cleanGrid(cleanAll) {
-	appState.menem++
-	console.log(appState)
 	document.getElementById("grilla").childNodes.forEach((fila)=>{
 		fila.childNodes.forEach((celda)=>{
 			if(cleanAll || !celda.classList.contains("wall"))

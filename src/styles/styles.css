@@ -1,11 +1,11 @@
 :root {
   --bg: #82e0aa;
-	--origen: green;
-	--destino: red;
-	--wall: black;
-	--visitados: #345EA8;
-	--previsitados: #EEDBCB;
-	--path: pink;
+  --origen: green;
+  --destino: red;
+  --wall: black;
+  --visitados: #345ea8;
+  --previsitados: #eedbcb;
+  --path: pink;
 }
 
 * {
@@ -20,37 +20,9 @@
   user-select: none;
 }
 
-.container {
-  width: 100vw;
-  height: 70vh;
-}
-
-.boton {
-  width: auto;
-  height: 50px;
-  background-color: rgb(20, 20, 80);
-  transition: all 100ms linear;
-  border: 1px solid black;
-  color: white;
-  font-size: 200%;
-	padding: 5px;
-}
-
-.boton:hover {
-  background-color: rgb(20, 100, 80);
-}
-
 .main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column;
-}
-
-.botonera{
+  height: 100vh;
   width: 100vw;
-  display: flex;
-	/* flex-direction: row; */
-  justify-content: space-around;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 80% 20%;
 }

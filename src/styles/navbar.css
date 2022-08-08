@@ -1,0 +1,25 @@
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.botons {
+
+}
+
+.boton {
+  width: auto;
+  height: 50px;
+  background-color: rgb(20, 20, 80);
+  transition: all 100ms linear;
+  border: 1px solid black;
+  color: white;
+  font-size: 200%;
+  padding: 5px;
+}
+
+.boton:hover {
+  background-color: rgb(20, 100, 80);
+}
