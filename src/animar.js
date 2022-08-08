@@ -1,6 +1,14 @@
 import { cambiarCelda } from './grilla.js'
+import Context from './context'
+
+
+let {instance} = Context
+
 
 export default function animar(visitados, camino) {
+	// let {instance} = Context
+	console.log("instance", instance.get("origen"))
+	instance.set("origen", "200")
   let speed = 5
   let timeout = 0
 

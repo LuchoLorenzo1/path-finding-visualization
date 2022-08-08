@@ -14,22 +14,21 @@ import {
   cambiarCelda,
   cleanGrid,
 } from './grilla.js'
+import Context from './context'
+let { state } = Context
 
 const pesoDefault = 1
 const algorithms = new Map([['Dijkstra', dijkstra]])
-
-window.N = 0;
-window.M = 0;
-window.origen = undefined;
-window.destino = undefined;
+window.N = 0
+window.M = 0
+window.origen = undefined
+window.destino = undefined
 var pesos = []
 window.animating = false
 window.isClean = true
 
-// var objetos = ['origen', 'destino']
-
 window.addEventListener('load', () => {
-  ;[N, M, origen, destino] = crearGrilla(origen, destino)
+  [N, M, origen, destino] = crearGrilla(origen, destino)
   for (let i = 0; i < N; i++) {
     let l = []
     for (let j = 0; j < M; j++) {
@@ -38,16 +37,16 @@ window.addEventListener('load', () => {
     pesos.push(l)
   }
   const selector = document.getElementById('select-algorithm')
-	algorithms.forEach((_,key) => {
+  algorithms.forEach((_, key) => {
     const option = document.createElement('option')
     option.value = key
     option.innerText = key
     selector.appendChild(option)
-	});
+  })
 })
 
 // window.addEventListener('resize', () => {
-  // resizeGrilla(pesos, origen, destino, N)
+// resizeGrilla(pesos, origen, destino, N)
 // })
 
 const grilla = document.getElementById('grilla')
@@ -57,9 +56,9 @@ grilla.addEventListener('mousedown', (e) => {
   if (window.animating || e.target.id == origen || e.target.id == destino)
     return
 
-	if(!window.isClean){
-		cleanGrid()
-	}
+  if (!window.isClean) {
+    cleanGrid()
+  }
 
   mousedown = true
   let [x, y] = e.target.id.split(':')
@@ -79,7 +78,7 @@ grilla.addEventListener('mouseover', (e) => {
 })
 
 document.getElementById('clean-grilla').addEventListener('click', () => {
-	if(window.animating) return
+  if (window.animating) return
   cleanGrid(true)
   pesos = []
   for (let i = 0; i < N; i++) {
@@ -90,7 +89,7 @@ document.getElementById('clean-grilla').addEventListener('click', () => {
     pesos.push(l)
   }
 
-	window.isClean = true;
+  window.isClean = true
 })
 
 grilla.addEventListener('contextmenu', (e) => {
@@ -170,23 +169,21 @@ grilla.addEventListener('drop', (e) => {
 
   e.target.classList.remove('droppable')
   moveObject(e.target, dragging)
-	if(dragging == 'origen' && !isClean)
-		startAlgorithm()
+  if (dragging == 'origen' && !isClean) startAlgorithm()
 })
 // grilla.addEventListener('dragend', (e) => {
 // })
 
 document.getElementById('start-algorithm').addEventListener('click', () => {
-	startAlgorithm();
+  startAlgorithm()
 })
 
-function startAlgorithm(){
-	if (window.animating) return
-	window.animating = true
-	if(!window.isClean)
-		cleanGrid()
+function startAlgorithm() {
+  if (window.animating) return
+  window.animating = true
+  if (!window.isClean) cleanGrid()
   const selector = document.getElementById('select-algorithm')
-  const resultado =  algorithms.get(selector.value)(pesos, origen, destino)
+  const resultado = algorithms.get(selector.value)(pesos, origen, destino)
 
   if (!resultado) {
     window.animating = false
