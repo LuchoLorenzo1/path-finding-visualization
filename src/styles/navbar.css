@@ -1,22 +1,38 @@
-.navbar {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+.navbar-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.botons {
+.navbar {
+  width: 50%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
 
+.buttons {
+	width: 80%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.options{
+	width: 20%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .boton {
-  width: auto;
-  height: 50px;
+  width:auto;
+  height: 7vh;
   background-color: rgb(20, 20, 80);
   transition: all 100ms linear;
   border: 1px solid black;
   color: white;
-  font-size: 200%;
+  font-size: 2rem;
   padding: 5px;
 }
 

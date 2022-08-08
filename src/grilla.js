@@ -30,8 +30,6 @@ export function crearGrilla(origen,destino) {
       td.classList.add('celda')
       td.classList.add('vacio')
       td.setAttribute('id', `${i}:${j}`)
-			td.style.width = `${W}px`
-			td.style.height = `${W}px`
       td.appendChild(content)
       tr.appendChild(td)
     }
