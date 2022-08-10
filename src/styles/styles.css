@@ -1,11 +1,22 @@
 :root {
-  --bg: #82e0aa;
+  --main: #79c7c5ff;
+  --mainSec: #ade1e5ff;
+  --alt: #80b38fff;
+  --altSec: #99d19cff;
+  --contrast: #000206ff;
+
+  --text: white;
+  --bg: none;
+  --border: rgb(0, 0, 0, 0.5);
+
   --origen: green;
   --destino: red;
   --wall: black;
   --visitados: #345ea8;
   --previsitados: #eedbcb;
-  --path: pink;
+  --path: var(--contrast);
+  --vacio: white;
+
 }
 
 * {
@@ -18,11 +29,13 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  color: var(--text);
 }
 
 .main {
   height: 100vh;
   width: 100vw;
   display: grid;
-  grid-template-rows: 80% 20%;
+  grid-template-rows: 90% 10%;
+  background: var(--bg);
 }

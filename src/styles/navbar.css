@@ -31,11 +31,23 @@
   background-color: rgb(20, 20, 80);
   transition: all 100ms linear;
   border: 1px solid black;
-  color: white;
   font-size: 2rem;
   padding: 5px;
 }
 
 .boton:hover {
   background-color: rgb(20, 100, 80);
+}
+
+.boton-options {
+	display: flex;
+	align-items: center;
+	width: auto;
+	height: auto;
+	border-radius: 50%;
+	background: var(--bg);
+}
+
+.svg-options {
+	fill: var(--text);
 }
