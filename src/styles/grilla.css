@@ -1,45 +1,47 @@
 .grilla {
+	height: 100vh;
+  width: 100vw;
   border-spacing: 0;
+  /* border: none; */
   border: 1px solid var(--border);
-  margin: 5px;
 }
 
 .celda {
 	position: relative;
   border: 1px solid var(--border);
-
 	transition: linear 100ms all;
 }
 
-.celda::before {
-  content: "";
-  position: absolute;
-  top: 0%;
-  left: 0%;
-	/* width: 0%; */
-  /* height: 0%; */
-	/* border-radius: 50%; */
-  transition: linear all 500ms;
-}
+/* .celda::before { */
+/*   content: ""; */
+/*   position: absolute; */
+/*   top: 0%; */
+/*   left: 0%; */
+/* 	/* width: 0%; */ */
+/*   /* height: 0%; */ */
+/* 	/* border-radius: 50%; */ */
+/*   transition: linear all 500ms; */
+/* } */
 
 .visitados {
 	background-color: var(--visitados);
 }
-.visitados::before {
-	width: 100%;
-  height: 100%;
-	background-color: var(--mainSec);
-	/* transition: linear 300ms all; */
-}
 
-@keyframes visit {
-  0% {
-		background-color: white;
-  }
-  /* 100% { */
-		/* background-color: var(--visitados); */
-  /* } */
-}
+/* .visitados::before { */
+/* 	width: 100%; */
+/*   height: 100%; */
+/* 	background-color: var(--mainSec); */
+/* 	/* transition: linear 300ms all; */ */
+/* } */
+
+/* @keyframes visit { */
+/*   0% { */
+/* 		background-color: white; */
+/*   } */
+/*   /* 100% { */ */
+/* 		/* background-color: var(--visitados); */ */
+/*   /* } */ */
+/* } */
 
 /* .celda:hover { */
 /* 	background-color: lightcyan; */

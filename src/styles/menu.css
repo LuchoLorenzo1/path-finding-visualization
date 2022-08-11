@@ -1,0 +1,49 @@
+.menu {
+	display: none;
+
+	/* align-items: center; */
+	/* justify-content: center; */
+}
+
+.boton {
+  width:auto;
+  height: 7vh;
+  background-color: rgb(20, 20, 80);
+  transition: all 100ms linear;
+  border: 1px solid black;
+  font-size: 2rem;
+  padding: 5px;
+}
+
+.boton:hover {
+  background-color: rgb(20, 100, 80);
+}
+
+.svg-options {
+	fill: var(--text);
+}
+
+.buttons-container {
+	position: absolute;
+	left: 3vw;
+	bottom: 3vh;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 10vw;
+	height: 10vh;
+}
+
+button {
+	width: 50%;
+	height: 100%;
+	background-color: var(--mainAlt)
+	color: var(--text);
+}
+
+/* svg { */
+/* 	width: 50%; */
+/* 	height: 100%; */
+/* } */
