@@ -1,26 +1,28 @@
+/* { */
+/*   --main: #79c7c5ff; */
+/*   --mainSec: #ade1e5ff; */
+/*   --alt: #80b38fff; */
+/*   --altSec: #99d19cff; */
+/*   --contrast: #000206ff; */
+/**/
+/*   --text: white; */
+/*   --bg: none; */
+/*   --border: rgb(0, 0, 0, 0.5); */
+/**/
+/*   --origen: green; */
+/*   --destino: red; */
+/*   --wall: black; */
+/*   --visitados: #345ea8; */
+/*   --previsitados: #eedbcb; */
+/*   --path: var(--contrast); */
+/*   --vacio: white; */
+/**/
+/* } */
+
 .menu {
 	display: none;
-
 	/* align-items: center; */
 	/* justify-content: center; */
-}
-
-.boton {
-  width:auto;
-  height: 7vh;
-  background-color: rgb(20, 20, 80);
-  transition: all 100ms linear;
-  border: 1px solid black;
-  font-size: 2rem;
-  padding: 5px;
-}
-
-.boton:hover {
-  background-color: rgb(20, 100, 80);
-}
-
-.svg-options {
-	fill: var(--text);
 }
 
 .buttons-container {
@@ -30,17 +32,31 @@
 
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-evenly;
 
 	width: 10vw;
 	height: 10vh;
 }
 
 button {
-	width: 50%;
-	height: 100%;
-	background-color: var(--mainAlt)
+	width: 25%;
+	height: 75%;
+	background-color: var(--alt);
 	color: var(--text);
+}
+
+button:hover {
+	background-color: var(--altSec);
+}
+
+
+.triangle {
+  width: 0;
+  height: 0;
+  border: 150px solid transparent;
+  border-top: 0;
+  border-bottom: 300px solid red;
+  transform: rotate(90);
 }
 
 /* svg { */
