@@ -13,20 +13,30 @@
 
 <body>
 	<table class="grilla" id="grilla"></table>
-	<div class="menu">
-		<button id="clean-grilla" class="boton">CLEAN</button>
-		<button id="start-algorithm" class="boton">RUN</button>
-		<select id="select-algorithm" name="select" class="boton"> </select>
+
+	<div id="menu-container" class="menu-container" style="display: none;">
+		<ul id="menu-options" class="menu-options">
+			<li id="algorithms-option" class="menu-option">algorithms</li>
+			<li id="grid-option" class="menu-option">grid</li>
+			<li id="terrain-option" class="menu-option">terrain</li>
+		</ul>
+		<div id="algorithms-menu" class="menu" style="display: block;">
+			<select id="select-algorithm" name="select" class="boton"> </select>
+			<input type="range" id="algorithm-speed-input" name="speed" min="1" max="100" value="50" step="5" />
+		</div>
+		<div id="grid-menu" class="menu" style="display: none;"></div>
+		<div id="terrain-menu" class="menu" style="display: none;"></div>
 	</div>
+
 	<div class="buttons-container">
-		<button id="" class="menu-button">
-		</button>
+		<button id="menu-button" class="menu-button" />
 		<button id="run" class="start-button" />
-		<select id="select-algorithm" name="select" class="boton"> </select>
 		<button id="clean-grilla" class="boton">CLEAN</button>
 	</div>
+
 </body>
 <script type="module" src="./src/main.js"></script>
+<script type="module" src="./src/menu.js"></script>
 
 <link rel="stylesheet" href="" type="text/css" media="all">
 
