@@ -1,26 +1,4 @@
-/* { */
-/*   --main: #79c7c5ff; */
-/*   --mainSec: #ade1e5ff; */
-/*   --alt: #80b38fff; */
-/*   --altSec: #99d19cff; */
-/*   --contrast: #000206ff; */
-/**/
-/*   --text: white; */
-/*   --bg: none; */
-/*   --border: rgb(0, 0, 0, 0.5); */
-/**/
-/*   --origen: green; */
-/*   --destino: red; */
-/*   --wall: black; */
-/*   --visitados: #345ea8; */
-/*   --previsitados: #eedbcb; */
-/*   --path: var(--contrast); */
-/*   --vacio: white; */
-/**/
-/* } */
-
-.menu {
-  display: none;
+.menu-container {
   width: 32.5%;
   height: 72.5%;
 
@@ -33,45 +11,67 @@
   backdrop-filter: blur(5px);
 
   border: 1px solid rgba(0, 0, 0, 0.6);
-  /* align-items: center; */
-  /* justify-content: center; */
+
+  display: block;
+  /* grid-template-rows: 15% 85%; */
+}
+
+.menu-options {
+  display: flex;
+  width: 100%;
+
+  background-color: var(--alt);
+  margin: 0;
+  padding: 0;
+  /* text-decoration: none; */
+  list-style: none;
+}
+
+.menu-option {
+  height: 100%;
+  margin: 0;
+  padding: 8px 16px;
+
+  text-align: center;
+
+  background-color: var(--alt);
+  border: none;
+}
+
+.menu-option:hover {
+  background-color: var(--contrast);
+}
+
+.menu {
+  background-color: var(--altSec);
 }
 
 .buttons-container {
-	position: absolute;
-	left: 3vw;
-	bottom: 3vh;
+  position: absolute;
+  left: 3vw;
+  bottom: 3vh;
 
-	display: flex;
-	align-items: center;
-	justify-content: space-evenly;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 
-	width: 10vw;
-	height: 10vh;
+  width: 10vw;
+  height: 10vh;
 }
 
 button {
-	width: 25%;
-	height: 75%;
-	background-color: var(--alt);
-	color: var(--text);
+  position: relative;
+  width: 40%;
+  height: 100%;
+  background-color: var(--alt);
+  color: var(--text);
 }
 
 button:hover {
-	background-color: var(--altSec);
+  background-color: var(--altSec);
 }
 
-
-.triangle {
-  width: 0;
-  height: 0;
-  border: 150px solid transparent;
-  border-top: 0;
-  border-bottom: 300px solid red;
-  transform: rotate(90);
+svg {
+  width: 50%;
+  height: 50%;
 }
-
-/* svg { */
-/* 	width: 50%; */
-/* 	height: 100%; */
-/* } */

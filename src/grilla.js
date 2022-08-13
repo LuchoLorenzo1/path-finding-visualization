@@ -1,4 +1,4 @@
-const M = 75
+const M = 40
 
 export function cambiarCelda(element, class_) {
 	if(!element) return

@@ -1,6 +1,6 @@
 import { cambiarCelda } from './grilla.js'
-import Context from './context'
-let { state } = Context
+// import Context from './context'
+// let { state } = Context
 
 export default function animar(visitados, camino) {
   let speed = 5
@@ -10,6 +10,8 @@ export default function animar(visitados, camino) {
     timeout += speed
     let e = document.getElementById(visitados[i])
 
+		// console.log("HOLA")
+		// console.log(e)
     setTimeout(() => {
       cambiarCelda(e, 'visitados')
     }, timeout)

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width" />
@@ -8,20 +9,38 @@
 	
 	
 	<link rel="shortcut icon" href="#">
-  <script type="module" crossorigin src="/path_finding_app/assets/index.33474642.js"></script>
-  <link rel="stylesheet" href="/path_finding_app/assets/index.58244cca.css">
+  <script type="module" crossorigin src="/path_finding_app/assets/index.b810b60d.js"></script>
+  <link rel="stylesheet" href="/path_finding_app/assets/index.b5296af7.css">
 </head>
 
 <body>
-	<div class="main">
-		<table class="grilla" id="grilla"></table>
-		<div class="navbar" id="navbar">
-			<button id="clean-grilla" class="boton">CLEAN</button>
-			<button id="start-algorithm" class="boton">RUN</button>
-			<select id="select-algorithm" name="select" class="boton"> </select>
+	<table class="grilla" id="grilla"></table>
+
+	<div id="menu" class="main-menu" style="display: none;">
+		<div id="options" class="options">
+			<div id="options-algorithm">algorithms</div>
+			<div id="options-grid">grid</div>
+			<li id="options-terrain">terrain</li>
+		</div>
+
+		<div id="menu-algorithm" class="secondary-menu" style="display: block;">
+		</div>
+		<div id="menu-grid" style="display: none;">
+		</div>
+		<div id="menu-terrain" style="display: none;">
 		</div>
 	</div>
+
+	<div class="buttons-container">
+		<button id="menu-button" class="menu-button">
+		</button>
+		<button id="run" class="start-button" />
+		<select id="select-algorithm" name="select" class="boton"> </select>
+		<button id="clean-grilla" class="boton">CLEAN</button>
+	</div>
+
 </body>
+
 
 
 <link rel="stylesheet" href="" type="text/css" media="all">

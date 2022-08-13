@@ -12,23 +12,24 @@ import {
   crearGrilla,
   // resizeGrilla,
   cambiarCelda,
-  cleanGrid,
+  cleanGrid
 } from './grilla.js'
-import Context from './context'
-let { state } = Context
+// import Context from './context'
+// let { state } = Context
 
 const pesoDefault = 1
-const algorithms = new Map([['Dijkstra', dijkstra]])
-window.N = 0
 window.M = 0
+const algorithms = new Map([['Dijkstra',dijkstra]])
+window.N = 0
 window.origen = undefined
 window.destino = undefined
-var pesos = []
 window.animating = false
 window.isClean = true
+var pesos = []
 
 window.addEventListener('load', () => {
-  [N, M, origen, destino] = crearGrilla(origen, destino)
+  ;[N, M, origen, destino] = crearGrilla(origen, destino)
+  console.log(N, M, origen, destino)
   for (let i = 0; i < N; i++) {
     let l = []
     for (let j = 0; j < M; j++) {
@@ -37,12 +38,14 @@ window.addEventListener('load', () => {
     pesos.push(l)
   }
   const selector = document.getElementById('select-algorithm')
+
   algorithms.forEach((_, key) => {
     const option = document.createElement('option')
     option.value = key
     option.innerText = key
     selector.appendChild(option)
   })
+
 })
 
 // window.addEventListener('resize', () => {
@@ -68,8 +71,14 @@ grilla.addEventListener('mousedown', (e) => {
 window.addEventListener('mouseup', () => {
   mousedown = false
 })
+
 grilla.addEventListener('mouseover', (e) => {
-  if (window.animating || e.target.id == origen || e.target.id == destino)
+  if (
+    window.animating ||
+    !e.target.classList.contains('celda') ||
+    e.target.id == origen ||
+    e.target.id == destino
+  )
     return
   if (!mousedown) return
   let [x, y] = e.target.id.split(':')
@@ -174,7 +183,7 @@ grilla.addEventListener('drop', (e) => {
 // grilla.addEventListener('dragend', (e) => {
 // })
 
-document.getElementById('start-algorithm').addEventListener('click', () => {
+document.getElementById('run').addEventListener('click', () => {
   startAlgorithm()
 })
 
