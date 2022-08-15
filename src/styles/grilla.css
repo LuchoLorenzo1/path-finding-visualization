@@ -1,47 +1,40 @@
 .grilla {
-  height: 100vh;
-  width: 100vw;
+  height: calc(100% + 5px);
+  width: calc(100% + 5px);
   border-spacing: 0;
-  /* border: none; */
-  border: 1px solid var(--border);
+	/* background-color: white; */
+	/* margin: 0px 20px 20px 0px; */
+  /* border: 10px solid black; */
 }
 
 .celda {
-	position: relative;
   border: 1px solid var(--border);
-	/* transition: linear 100ms all; */
 }
-
-/* .celda::before { */
-/*   content: ""; */
-/*   position: absolute; */
-/*   top: 0%; */
-/*   left: 0%; */
-/* 	/* width: 0%; */
-/*   /* height: 0%; */
-/* 	/* border-radius: 50%; */
-/*   transition: linear all 500ms; */
-/* } */
 
 .visitados {
-	background-color: var(--visitados);
+  background-color: var(--visitados);
+  animation: visitAnimation 1s linear;
 }
 
-/* .visitados::before { */
-/* 	width: 100%; */
-/*   height: 100%; */
-/* 	background-color: var(--mainSec); */
-/* 	/* transition: linear 300ms all; */
-/* } */
-
-/* .celda:hover { */
-/* 	background-color: lightcyan; */
-/* } */
+@keyframes visitAnimation {
+	0%{
+		background-color: var(--previsitados);
+		transform: scale(0);
+		/* border-radius: 50%; */
+	}
+	50% {
+		background-color: var(--previsitados);
+		transform: scale(1);
+		/* border-radius: 0; */
+	}
+	100%{
+		background-color: var(--visitados);
+	}
+}
 
 /* .destino::after { */
 /* content: url('../media/flag.svg') */
 /* } */
-
 
 .path {
   background-color: var(--path);
@@ -52,24 +45,40 @@
 }
 
 [draggable] {
-	touch-action: none;
+  touch-action: none;
 }
 
 .droppable {
-  border: 1px dashed red;
+  border: 1px dashed var(--border);
 }
 
 .wall {
   background-color: var(--wall);
+  animation: wallAnimation 200ms ease-in;
+}
+
+@keyframes wallAnimation {
+	0%{
+		z-index: 1;
+		transform: scale(1);
+	}
+	70% {
+		transform: scale(1.2);
+	}
+	100%{
+		z-index: 1;
+		transform: scale(1);
+	}
 }
 
 .origen {
   background-color: var(--origen);
 }
+
 .destino {
   background-color: var(--destino);
 }
 
 .vacio {
-	background-color: var(--vacio);
+  background-color: var(--vacio);
 }

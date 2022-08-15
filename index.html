@@ -12,20 +12,45 @@
 </head>
 
 <body>
+
 	<table class="grilla" id="grilla"></table>
 
 	<div id="menu-container" class="menu-container" style="display: none;">
 		<ul id="menu-options" class="menu-options">
-			<li id="algorithms-option" class="menu-option">algorithms</li>
-			<li id="grid-option" class="menu-option">grid</li>
-			<li id="terrain-option" class="menu-option">terrain</li>
+			<li id="algorithms-option" class="menu-option active">algorithms</li>
+			<li id="grid-option" class="menu-option inactive">grid</li>
+			<li id="terrain-option" class="menu-option inactive">terrain</li>
 		</ul>
+
 		<div id="algorithms-menu" class="menu" style="display: block;">
-			<select id="select-algorithm" name="select" class="boton"> </select>
-			<input type="range" id="algorithm-speed-input" name="speed" min="1" max="100" value="50" step="5" />
+			<label>
+				select algorithm <select id="select-algorithm" name="select" class="boton"></select>
+			</label>
+			<label>
+				speed <input type="range" id="algorithm-speed-input" name="speed" min="1" max="100" value="50" step="5" />
+			</label>
 		</div>
-		<div id="grid-menu" class="menu" style="display: none;"></div>
+
+		<div id="grid-menu" class="menu" style="display: none;">
+			<label>
+				grid size <input type="range" id="grid-size" name="speed" min="1" max="100" value="50" step="5" />
+			</label>
+			<label>
+				border <input type="checkbox" id="border-checkbox" />
+			</label>
+			<label>
+				show weights <input type="checkbox" id="weights-checkbox" />
+			</label>
+			<label>
+				<h3>change colors</h3>
+				<ul>
+					origin <input type="color" name="origin-color-changer" value="#00FF00">
+				</ul>
+			</label>
+		</div>
+
 		<div id="terrain-menu" class="menu" style="display: none;"></div>
+		<div id="nodes-menu" class="menu" style="display: none;"></div>
 	</div>
 
 	<div class="buttons-container">

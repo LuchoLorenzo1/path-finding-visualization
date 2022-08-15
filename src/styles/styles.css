@@ -1,28 +1,32 @@
 :root {
-  --main: #79c7c5ff;
-  --mainSec: #ade1e5ff;
-  --alt: #80b38fff;
-  --altSec: #99d19cff;
-  --contrast:  #fcf3cf ;
+  --primary: rgba(183, 215, 232, 1);
+  --primaryDark: rgba(135, 189, 216, 1);
+
+  --secondary: rgba(141, 157, 182, 1);
+  --secondaryDark: rgba(102, 114, 146, 1);
+
+  --menuBackground: rgba(0, 0, 0, 1);
+  --menuBackgroundDark: rgba(1, 1, 1, 0.5);
 
   --text: white;
-  --bg: none;
-  --border: rgb(0, 0, 0, 0.5);
+  /* --border: #bbc1c9; */
+  --border: rgba(141, 157, 182, 0.1);
 
   --origen: green;
   --destino: red;
-  --wall: black;
-  --visitados: #345ea8;
-  --previsitados: #eedbcb;
-  --path: var(--contrast);
-  --vacio: white;
+  --wall: #112238;
 
+  --visitados: rgba(52, 94, 168, 1);
+  --previsitados:  rgba(31, 181, 30, .5);
+
+  --path: #2f0f0f;
+  --vacio: white;
 }
 
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: content-box;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -32,8 +36,9 @@
   color: var(--text);
 }
 
-.main {
-  display: grid;
-  grid-template-rows: 90% 10%;
-  background: var(--bg);
+body {
+	overflow: hidden;
+	width: 100vw;
+  height: 100vh;
+	/* background-color: black; */
 }

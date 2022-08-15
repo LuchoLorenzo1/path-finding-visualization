@@ -9,13 +9,12 @@ export default function animar(visitados, camino) {
   for (let i = 1; i < visitados.length - 1; i++) {
     timeout += speed
     let e = document.getElementById(visitados[i])
-
-		// console.log("HOLA")
-		// console.log(e)
     setTimeout(() => {
       cambiarCelda(e, 'visitados')
     }, timeout)
   }
+
+	timeout += 1000;
 
   for (let i = 1; i < camino.length; i++) {
     let e = document.getElementById(camino[i])

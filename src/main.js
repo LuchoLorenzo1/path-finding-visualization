@@ -30,7 +30,6 @@ var pesos = []
 
 window.addEventListener('load', () => {
   ;[N, M, origen, destino] = crearGrilla(origen, destino)
-  console.log(N, M, origen, destino)
   for (let i = 0; i < N; i++) {
     let l = []
     for (let j = 0; j < M; j++) {
