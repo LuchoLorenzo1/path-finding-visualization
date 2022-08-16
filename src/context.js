@@ -1,8 +1,8 @@
-let _instance = null
+let _appState = null
 
 export default class Context {
   static get state() {
-    return _instance ? _instance : (_instance = new Context())
+    return _appState ? _appState : (_appState = new Context())
   }
   constructor() {
     this._state = {}

@@ -1,10 +1,8 @@
 // TODO:
-// * Create layout and config menu
 // * Dragging objects after algorithm finished. (partly done)
 // * A*, dfs, bfs
 // * add option for adding weighted cells
 // * terrain (weighted grass, water, sand, etc.) and recursive maze generator
-// * improve keyframes animation
 // * add loading animation
 
 import dijkstra from './algorithms/dijkstra.js'
