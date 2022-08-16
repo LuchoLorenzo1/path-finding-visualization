@@ -2,12 +2,13 @@
   height: calc(100% + 5px);
   width: calc(100% + 5px);
   border-spacing: 0;
-	/* background-color: white; */
-	/* margin: 0px 20px 20px 0px; */
+  /* background-color: white; */
+  /* margin: 0px 20px 20px 0px; */
   /* border: 10px solid black; */
 }
 
 .celda {
+  /* position: absolute; */
   border: 1px solid var(--border);
 }
 
@@ -17,24 +18,15 @@
 }
 
 @keyframes visitAnimation {
-	0%{
-		background-color: var(--previsitados);
-		transform: scale(0);
-		/* border-radius: 50%; */
-	}
-	50% {
-		background-color: var(--previsitados);
-		transform: scale(1);
-		/* border-radius: 0; */
-	}
-	100%{
-		background-color: var(--visitados);
-	}
+  0% {
+	opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+	opacity: 1;
+    transform: scale(1);
+  }
 }
-
-/* .destino::after { */
-/* content: url('../media/flag.svg') */
-/* } */
 
 .path {
   background-color: var(--path);
@@ -58,17 +50,15 @@
 }
 
 @keyframes wallAnimation {
-	0%{
-		z-index: 1;
-		transform: scale(1);
-	}
-	70% {
-		transform: scale(1.2);
-	}
-	100%{
-		z-index: 1;
-		transform: scale(1);
-	}
+  0% {
+    transform: scale(1);
+  }
+  70% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .origen {
