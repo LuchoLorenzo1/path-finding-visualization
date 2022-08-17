@@ -1,23 +1,32 @@
+import Context from './context'
+
+const { state } = Context
+
 const M = 40
 
 export function cambiarCelda(element, class_) {
-	if(!element) return
+  if (!element) return
   element.classList.remove(element.classList[1])
   element.classList.add(class_)
 }
 
-export function crearGrilla(origen,destino) {
+export function crearGrilla() {
   const grilla = document.getElementById('grilla')
-	let viewportWidth = window.innerWidth;
-	let viewportHeight = window.innerHeight;
+  let viewportWidth = window.innerWidth
+  let viewportHeight = window.innerHeight
 
-	let W = viewportWidth/M
-	if(W < 20)
-		W = 20
-	const N = Math.floor(viewportHeight/W)
+  let W = viewportWidth / M
+  if (W < 20) W = 20
+  const N = Math.floor(viewportHeight / W)
 
-	var origen = `${Math.floor(N / 2)}:2`
-	var destino = `${Math.floor(N / 2)}:${M - 3}`
+	state.set('N', N)
+	state.set('M', M)
+
+	const origin = `${Math.floor(N / 2)}:2`
+	const destination =`${Math.floor(N / 2)}:${M - 3}`
+
+  state.set('origin', origin)
+  state.set('destination', destination)
 
   grilla.innerHTML = ''
   for (let i = 0; i < N; i++) {
@@ -27,7 +36,8 @@ export function crearGrilla(origen,destino) {
       const td = document.createElement('td')
       const content = document.createTextNode('')
 
-      td.classList.add('celda')
+      // td.classList.add('celda vacio')
+      td.classList.add('celda') /* TODO */
       td.classList.add('vacio')
       td.setAttribute('id', `${i}:${j}`)
       td.appendChild(content)
@@ -37,46 +47,35 @@ export function crearGrilla(origen,destino) {
     grilla.appendChild(tr)
   }
 
-	let	o = document.getElementById(origen)
-	let	d = document.getElementById(destino)
-	cambiarCelda(o, "origen")
-	cambiarCelda(d, "destino")
-	o.setAttribute("draggable", true)
-	d.setAttribute("draggable", true)
-	return [N, M, origen, destino]
+  let o = document.getElementById(origin)
+  let d = document.getElementById(destination)
+  cambiarCelda(o, 'origen')
+  cambiarCelda(d, 'destino')
+  o.setAttribute('draggable', true)
+  d.setAttribute('draggable', true)
+
 }
 
 export function resizeGrilla() {
-  const grilla = document.getElementById('grilla')
-	const viewportWidth = window.innerWidth;
-	const viewportHeight = window.innerHeight;
-
-	let W = viewportWidth/M
-	let H = (viewportHeight*0.7)/N
-
-	grilla.childNodes.forEach((fila)=>{
-		fila.childNodes.forEach((celda)=>{
-			celda.style.width = `${W}px`
-			celda.style.height = `${H}px`
-		})
-	})
+	console.log("resize")
 }
 
 export function cleanGrid(cleanAll) {
-	document.getElementById("grilla").childNodes.forEach((fila)=>{
-		fila.childNodes.forEach((celda)=>{
-			if(cleanAll || !celda.classList.contains("wall"))
-				cambiarCelda(celda, "vacio")
-		})
-	})
-	setObjetos()
+  document.getElementById('grilla').childNodes.forEach(fila => {
+    fila.childNodes.forEach(celda => {
+      if (cleanAll || !celda.classList.contains('wall'))
+        cambiarCelda(celda, 'vacio')
+    })
+  })
+  setObjects()
+	state.set("isClean", true)
 }
 
-function setObjetos(){
-	let	o = document.getElementById(origen)
-	let	d = document.getElementById(destino)
-	cambiarCelda(o, "origen")
-	cambiarCelda(d, "destino")
-	o.setAttribute("draggable", true)
-	d.setAttribute("draggable", true)
+function setObjects() {
+  let o = document.getElementById(state.get("origin"))
+  let d = document.getElementById(state.get("destination"))
+  cambiarCelda(o, 'origen')
+  cambiarCelda(d, 'destino')
+  o.setAttribute('draggable', true)
+  d.setAttribute('draggable', true)
 }

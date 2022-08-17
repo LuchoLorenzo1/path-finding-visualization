@@ -1,6 +1,11 @@
-function dijkstra(pesos, origen, destino) {
+import Context from '../context'
+const { state } = Context
+
+function dijkstra(pesos) {
   const N = pesos.length
   const M = pesos[0].length
+	const origen = state.get("origin")
+	const destino = state.get("destination")
   // let startTimeDijkstra = performance.now()
 
   const grafo = new Map()
