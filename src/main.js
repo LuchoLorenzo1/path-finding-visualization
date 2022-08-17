@@ -20,6 +20,7 @@ const { state } = Context
 const pesoDefault = 1
 const algorithms = new Map([['Dijkstra', dijkstra]])
 
+state.set('speed', 5)
 state.set('N', 0)
 state.set('M', 0)
 state.set('origin', '0:1')
@@ -27,12 +28,9 @@ state.set('destination', '0:0')
 state.set('animating', false)
 state.set('isClean', true)
 
-console.log(
-  'animating ',
-  state.get('animating'),
-  'isClean',
-  state.get('isClean')
-)
+document.getElementById('algorithm-speed-input').onchange = (e) => {
+		state.set('speed', e.target.value)
+}
 
 var pesos = []
 
@@ -73,12 +71,6 @@ grilla.addEventListener('mousedown', (e) => {
   )
     return
 
-  console.log(
-    'animating ',
-    state.get('animating'),
-    'isClean',
-    state.get('isClean')
-  )
   if (!state.get('isClean')) {
     cleanGrid()
   }
@@ -234,9 +226,9 @@ function startAlgorithm() {
   if (state.get('animating')) return
   state.set('animating', true)
 
-  if (!state.get('isClean')){
-		cleanGrid()
-	}
+  if (!state.get('isClean')) {
+    cleanGrid()
+  }
 
   const selector = document.getElementById('select-algorithm')
   const resultado = algorithms.get(selector.value)(pesos)
@@ -246,12 +238,5 @@ function startAlgorithm() {
     return
   }
 
-  console.log('antes de animar')
-  console.log(
-    'animating ',
-    state.get('animating'),
-    'isClean',
-    state.get('isClean')
-  )
   animar(resultado[0], resultado[1])
 }
