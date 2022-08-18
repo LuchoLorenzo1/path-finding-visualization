@@ -47,7 +47,7 @@ window.addEventListener('click', () => {})
 
 const grilla = document.getElementById('grilla')
 
-let mousedown = false
+let mousedown = -1
 grilla.addEventListener('mousedown', (e) => {
   if (
     state.get('animating') ||
@@ -60,12 +60,18 @@ grilla.addEventListener('mousedown', (e) => {
     cleanGrid()
   }
 
-  mousedown = true
-  e.target.setAttribute('weight', Infinity)
-  cambiarCelda(e.target, 'wall')
+  mousedown = e.button
+	if(mousedown == 0){
+		e.target.setAttribute('weight', Infinity)
+		cambiarCelda(e.target, 'wall')
+	} else if(mousedown == 2){
+		e.target.setAttribute("weight", pesoDefault)
+		cambiarCelda(e.target, 'vacio')
+	}
 })
+
 window.addEventListener('mouseup', () => {
-  mousedown = false
+  mousedown = -1
 })
 
 grilla.addEventListener('mouseover', (e) => {
@@ -75,19 +81,22 @@ grilla.addEventListener('mouseover', (e) => {
     !e.target.classList.contains('celda') ||
     id == state.get('origin') ||
     id == state.get('destination') ||
-    !mousedown
+    mousedown == -1
   )
     return
 
-  e.target.setAttribute('weight', Infinity)
-  cambiarCelda(e.target, 'wall')
+	if(mousedown == 0){
+		e.target.setAttribute('weight', Infinity)
+		cambiarCelda(e.target, 'wall')
+	} else if(mousedown == 2){
+		e.target.setAttribute("weight", pesoDefault)
+		cambiarCelda(e.target, 'vacio')
+	}
 })
 
 document.getElementById('clean-grilla').addEventListener('click', () => {
   if (state.get('animating')) return
   cleanGrid(true)
-  const N = state.get('N')
-  const M = state.get('M')
   state.set('isClean', true)
 })
 
