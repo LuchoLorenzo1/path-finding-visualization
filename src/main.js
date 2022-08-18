@@ -7,12 +7,7 @@
 
 import dijkstra from './algorithms/dijkstra.js'
 import animar from './animar.js'
-import {
-  crearGrilla,
-  // resizeGrilla,
-  cambiarCelda,
-  cleanGrid,
-} from './grilla.js'
+import { crearGrilla, cambiarCelda, cleanGrid, } from './grilla.js'
 
 import Context from './context'
 const { state } = Context
@@ -29,23 +24,13 @@ state.set('animating', false)
 state.set('isClean', true)
 
 document.getElementById('algorithm-speed-input').onchange = (e) => {
-		state.set('speed', e.target.value)
+  state.set('speed', e.target.value)
 }
-
-var pesos = []
 
 window.addEventListener('load', () => {
   crearGrilla()
 
-  for (let i = 0; i < state.get('N'); i++) {
-    let l = []
-    for (let j = 0; j < state.get('M'); j++) {
-      l.push(pesoDefault)
-    }
-    pesos.push(l)
-  }
-  const selector = document.getElementById('select-algorithm')
-
+	const selector = document.getElementById("select-algorithm")
   algorithms.forEach((_, key) => {
     const option = document.createElement('option')
     option.value = key
@@ -57,7 +42,7 @@ window.addEventListener('load', () => {
 window.addEventListener('click', () => {})
 
 // window.addEventListener('resize', () => {
-// resizeGrilla(pesos, origen, destino, N)
+// resizeGrilla()
 // })
 
 const grilla = document.getElementById('grilla')
@@ -76,8 +61,7 @@ grilla.addEventListener('mousedown', (e) => {
   }
 
   mousedown = true
-  const [x, y] = e.target.id.split(':')
-  pesos[+x][+y] = Infinity
+  e.target.setAttribute('weight', Infinity)
   cambiarCelda(e.target, 'wall')
 })
 window.addEventListener('mouseup', () => {
@@ -95,26 +79,15 @@ grilla.addEventListener('mouseover', (e) => {
   )
     return
 
-  let [x, y] = id.split(':')
-  pesos[+x][+y] = Infinity
+  e.target.setAttribute('weight', Infinity)
   cambiarCelda(e.target, 'wall')
 })
 
 document.getElementById('clean-grilla').addEventListener('click', () => {
   if (state.get('animating')) return
   cleanGrid(true)
-  pesos = []
-
   const N = state.get('N')
   const M = state.get('M')
-  for (let i = 0; i < N; i++) {
-    let l = []
-    for (let j = 0; j < M; j++) {
-      l.push(pesoDefault)
-    }
-    pesos.push(l)
-  }
-
   state.set('isClean', true)
 })
 
@@ -127,8 +100,7 @@ grilla.addEventListener('contextmenu', (e) => {
   )
     return
 
-  let [x, y] = e.target.id.split(':')
-  pesos[+x][+y] = pesoDefault
+	e.target.setAttribute("weight", pesoDefault)
   cambiarCelda(e.target, 'vacio')
 })
 
@@ -231,7 +203,7 @@ function startAlgorithm() {
   }
 
   const selector = document.getElementById('select-algorithm')
-  const resultado = algorithms.get(selector.value)(pesos)
+  const resultado = algorithms.get(selector.value)()
 
   if (!resultado) {
     state.set('animating', false)

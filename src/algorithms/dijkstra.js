@@ -1,9 +1,9 @@
 import Context from '../context'
 const { state } = Context
 
-function dijkstra(pesos) {
-  const N = pesos.length
-  const M = pesos[0].length
+function dijkstra() {
+  const N = state.get("N")
+  const M = state.get("M")
 	const origen = state.get("origin")
 	const destino = state.get("destination")
   // let startTimeDijkstra = performance.now()
@@ -12,7 +12,7 @@ function dijkstra(pesos) {
   for (let i = 0; i < N; i++) {
     for (let j = 0; j < M; j++) {
       grafo.set(`${i}:${j}`, {
-        peso: pesos[i][j],
+        peso: document.getElementById(`${i}:${j}`).getAttribute("weight"),
         actual: Infinity,
         camino: [],
       })

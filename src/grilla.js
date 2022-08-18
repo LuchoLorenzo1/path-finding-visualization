@@ -1,8 +1,8 @@
 import Context from './context'
-
 const { state } = Context
 
 const M = 40
+const pesoDefault = 1
 
 export function cambiarCelda(element, class_) {
   if (!element) return
@@ -34,13 +34,12 @@ export function crearGrilla() {
 
     for (let j = 0; j < M; j++) {
       const td = document.createElement('td')
-      const content = document.createTextNode('')
+      // const content = document.createTextNode('')
 
-      // td.classList.add('celda vacio')
-      td.classList.add('celda') /* TODO */
-      td.classList.add('vacio')
+      td.classList.add('celda','vacio')
       td.setAttribute('id', `${i}:${j}`)
-      td.appendChild(content)
+      td.setAttribute('weight', pesoDefault)
+      // td.appendChild(content)
       tr.appendChild(td)
     }
     tr.classList.add('fila')
@@ -61,12 +60,20 @@ export function resizeGrilla() {
 }
 
 export function cleanGrid(cleanAll) {
-  document.getElementById('grilla').childNodes.forEach(fila => {
-    fila.childNodes.forEach(celda => {
-      if (cleanAll || !celda.classList.contains('wall'))
-        cambiarCelda(celda, 'vacio')
-    })
-  })
+
+  document.getElementById('grilla').childNodes.forEach((fila) => {
+		fila.childNodes.forEach((celda) => {
+			if (cleanAll){
+				cambiarCelda(celda, 'vacio')
+				celda.setAttribute("weight", pesoDefault)
+			}
+			if (!celda.classList.contains('wall'))  {
+					cambiarCelda(celda, 'vacio')
+					celda.setAttribute("weight", pesoDefault)
+			}
+		})
+	})
+
   setObjects()
 	state.set("isClean", true)
 }
