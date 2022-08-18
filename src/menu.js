@@ -36,21 +36,3 @@ function toggleMenu(menuTab) {
 	currentTab = menuTab
 	// state.set('currentTab', menuTab)
 }
-
-class Menu extends HTMLElement {
-
-  constructor() {
-    super()
-    this.attachShadow({ mode: 'open' })
-  }
-
-  connectedCallback() {
-    this.shadowRoot.appendChild(cardTemplate.content.cloneNode(true))
-    this.shadowRoot.getElementById('titulo').innerHTML =
-      this.getAttribute('titulo')
-  }
-
-	render() {
-		this.
-	}
-}
