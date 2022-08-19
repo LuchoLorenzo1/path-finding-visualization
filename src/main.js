@@ -23,9 +23,6 @@ state.set('destination', '0:0')
 state.set('animating', false)
 state.set('isClean', true)
 
-document.getElementById('algorithm-speed-input').onchange = (e) => {
-  state.set('speed', e.target.value)
-}
 
 window.addEventListener('load', () => {
   crearGrilla()
