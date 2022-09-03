@@ -15,16 +15,15 @@ const { state } = Context
 const pesoDefault = 1
 const algorithms = new Map([['Dijkstra', dijkstra]])
 
-state.set('speed', 5)
-state.set('N', 0)
-state.set('M', 0)
-state.set('origin', '0:1')
-state.set('destination', '0:0')
-state.set('animating', false)
-state.set('isClean', true)
-
-
 window.addEventListener('load', () => {
+	state.set('speed', 5)
+	state.set('N', 0)
+	state.set('M', 0)
+	state.set('origin', '0:1')
+	state.set('destination', '0:0')
+	state.set('animating', false)
+	state.set('isClean', true)
+
   crearGrilla()
 
 	const selector = document.getElementById("select-algorithm")
