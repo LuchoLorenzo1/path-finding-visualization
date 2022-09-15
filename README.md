@@ -1,2 +1,5 @@
 # path_finding_app
-path finding visualization with dijkstra xd
+
+path finding visualization
+
+https://lucholorenzo1.github.io/path_finding_app/
