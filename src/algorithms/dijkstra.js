@@ -1,5 +1,4 @@
 import Heap from './binary_heap'
-import Graph from './binary_heap'
 import Context from '../context'
 const { state } = Context
 
