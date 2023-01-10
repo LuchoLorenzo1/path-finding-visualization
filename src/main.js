@@ -7,12 +7,11 @@
 
 import {dijkstra, aStar, dfs} from './algorithms/algorithms.js'
 import animar from './animar.js'
-import { crearGrilla, cambiarCelda, cleanGrid, } from './grilla.js'
+import { createGrid, cleanGrid, cleanCell, weighUpCell } from './grilla.js'
 
 import Context from './context'
 const { state } = Context
 
-const pesoDefault = 1
 const algorithms = new Map([['Dijkstra', dijkstra], ['A*', aStar], ['dfs', dfs]])
 
 window.addEventListener('load', () => {
@@ -23,8 +22,9 @@ window.addEventListener('load', () => {
 	state.set('destination', '0:0')
 	state.set('animating', false)
 	state.set('isClean', true)
+	state.set('selectedWeight', 5)
 
-  crearGrilla()
+  createGrid()
 
 	const selector = document.getElementById("select-algorithm")
   algorithms.forEach((_, key) => {
@@ -35,16 +35,10 @@ window.addEventListener('load', () => {
   })
 })
 
-window.addEventListener('click', () => {})
-
-// window.addEventListener('resize', () => {
-// resizeGrilla()
-// })
-
-const grilla = document.getElementById('grilla')
+const grid = document.getElementById('grid')
 
 let mousedown = -1
-grilla.addEventListener('mousedown', (e) => {
+grid.addEventListener('mousedown', (e) => {
   if (
     state.get('animating') ||
     e.target.id == state.get('origin') ||
@@ -58,11 +52,9 @@ grilla.addEventListener('mousedown', (e) => {
 
   mousedown = e.button
 	if(mousedown == 0){
-		e.target.setAttribute('weight', Infinity)
-		cambiarCelda(e.target, 'wall')
+		weighUpCell(e)
 	} else if(mousedown == 2){
-		e.target.setAttribute("weight", pesoDefault)
-		cambiarCelda(e.target, 'vacio')
+		cleanCell(e)
 	}
 })
 
@@ -70,7 +62,7 @@ window.addEventListener('mouseup', () => {
   mousedown = -1
 })
 
-grilla.addEventListener('mouseover', (e) => {
+grid.addEventListener('mouseover', (e) => {
   const id = e.target.id
   if (
     state.get('animating') ||
@@ -82,11 +74,9 @@ grilla.addEventListener('mouseover', (e) => {
     return
 
 	if(mousedown == 0){
-		e.target.setAttribute('weight', Infinity)
-		cambiarCelda(e.target, 'wall')
+		weighUpCell(e)
 	} else if(mousedown == 2){
-		e.target.setAttribute("weight", pesoDefault)
-		cambiarCelda(e.target, 'vacio')
+		cleanCell(e)
 	}
 })
 
@@ -96,7 +86,7 @@ document.getElementById('clean-grilla').addEventListener('click', () => {
   state.set('isClean', true)
 })
 
-grilla.addEventListener('contextmenu', (e) => {
+grid.addEventListener('contextmenu', (e) => {
   e.preventDefault()
   if (
     state.get('animating') ||
@@ -105,8 +95,7 @@ grilla.addEventListener('contextmenu', (e) => {
   )
     return
 
-	e.target.setAttribute("weight", pesoDefault)
-  cambiarCelda(e.target, 'vacio')
+	cleanCell(e)
 })
 
 function moveObject(element, object) {
@@ -132,7 +121,7 @@ function moveObject(element, object) {
   element.setAttribute('draggable', true)
 }
 
-grilla.addEventListener('dragstart', (e) => {
+grid.addEventListener('dragstart', (e) => {
   if (state.get('animating')) return
   if (e.target.id == state.get('origin')) {
     e.dataTransfer.setData('dragging', 'origen')
@@ -143,7 +132,7 @@ grilla.addEventListener('dragstart', (e) => {
   }
 })
 
-grilla.addEventListener('dragenter', (e) => {
+grid.addEventListener('dragenter', (e) => {
   e.preventDefault()
   const id = e.target.id
   if (
@@ -158,12 +147,12 @@ grilla.addEventListener('dragenter', (e) => {
   e.target.classList.add('droppable')
 })
 
-grilla.addEventListener('dragover', (e) => {
+grid.addEventListener('dragover', (e) => {
   e.preventDefault()
   if (state.get('animating')) return
 })
 
-grilla.addEventListener('dragleave', (e) => {
+grid.addEventListener('dragleave', (e) => {
   e.preventDefault()
   if (
     e.target.id == state.get('origin') ||
@@ -172,7 +161,7 @@ grilla.addEventListener('dragleave', (e) => {
     return
   e.target.classList.remove('droppable')
 })
-grilla.addEventListener('drop', (e) => {
+grid.addEventListener('drop', (e) => {
   const id = e.target.id
   if (
     state.get('animating') ||
@@ -191,9 +180,6 @@ grilla.addEventListener('drop', (e) => {
     startAlgorithm()
   }
 })
-
-// grilla.addEventListener('dragend', (e) => {
-// })
 
 document.getElementById('run').addEventListener('click', () => {
   startAlgorithm()

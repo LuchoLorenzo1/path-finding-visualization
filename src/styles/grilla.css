@@ -1,4 +1,4 @@
-.grilla {
+.grid {
   /* height: calc(100% + 5px); */
   /* width: calc(100% + 5px); */
 
@@ -69,6 +69,10 @@
 
 .wall {
   background-color: var(--wall);
+  animation: wallAnimation 200ms ease-in;
+}
+
+.heavy {
   animation: wallAnimation 200ms ease-in;
 }
 
