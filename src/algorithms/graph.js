@@ -22,7 +22,6 @@ class Graph {
 				if (heuristic) {
 					h = heuristic(i, j)
 				}
-				console.log(h)
 				let node = new Node(i, j, parseInt(document.getElementById(`${i}:${j}`).getAttribute('weight')), h)
 				row.push(node)
 			}

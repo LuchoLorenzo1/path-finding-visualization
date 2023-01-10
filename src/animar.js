@@ -17,7 +17,7 @@ export default function animar(visitados, camino) {
 
 	timeout += 1000;
 
-  for (let i = 1; i < camino.length; i++) {
+  for (let i = 0; i < camino.length; i++) {
     let e = document.getElementById(camino[i])
     setTimeout(() => {
       cambiarCelda(e, 'path')

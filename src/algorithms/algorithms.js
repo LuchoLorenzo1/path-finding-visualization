@@ -58,7 +58,6 @@ export const dijkstra = () => {
 		path.push(act.id)
 		act = act.lastVisited
 	}
-	path.push(act.id)
 
 	// let endTimeDijkstra = performance.now()
 	// alert( `Dijkstra, time:${ (endTimeDijkstra - startTimeDijkstra) / 1000 }s, ${M}, ${N}`)
@@ -130,9 +129,52 @@ export const aStar = () => {
 		path.push(act.id)
 		act = act.lastVisited
 	}
-	path.push(act.id)
 
-	// let endTimeDijkstra = performance.now()
-	// alert( `Dijkstra, time:${ (endTimeDijkstra - startTimeDijkstra) / 1000 }s, ${M}, ${N}`)
 	return [visited, path.reverse()]
+}
+
+export const dfs = () => {
+	const N = state.get('N')
+	const M = state.get('M')
+	const originIndex = state
+		.get('origin')
+		.split(':')
+		.map((e) => parseInt(e))
+	const destIndex = state
+		.get('destination')
+		.split(':')
+		.map((e) => parseInt(e))
+
+	const graph = new Graph(N, M)
+
+	const origin = graph.get(originIndex[0], originIndex[1])
+	const dest = graph.get(destIndex[0], destIndex[1])
+
+	origin.actual = 0
+	dest.visited = false
+
+	const visited = []
+	let act = origin
+
+	const __dfs = (act) => {
+		if(dest.visited) return
+		for (const node of graph.adjacents(act)) {
+			if(!node.visited && node.weight < Infinity && node.id != origin.id){
+				if(node.id == dest.id){
+					dest.visited = true
+					return
+				}
+				visited.push(node.id)
+				node.visited = true
+				__dfs(node)
+				if(dest.visited) return
+			}
+		}
+		return
+	}
+	visited.push(act)
+	__dfs(act)
+	console.log(visited)
+
+	return [visited, visited]
 }
