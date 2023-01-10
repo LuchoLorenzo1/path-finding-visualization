@@ -1,98 +1,106 @@
+import Heap from './binary_heap'
+import Graph from './binary_heap'
 import Context from '../context'
 const { state } = Context
 
-function dijkstra() {
-  const N = state.get("N")
-  const M = state.get("M")
-	const origen = state.get("origin")
-	const destino = state.get("destination")
-  // let startTimeDijkstra = performance.now()
-
-  const grafo = new Map()
-  for (let i = 0; i < N; i++) {
-    for (let j = 0; j < M; j++) {
-      grafo.set(`${i}:${j}`, {
-        peso: document.getElementById(`${i}:${j}`).getAttribute("weight"),
-        actual: Infinity,
-        camino: [],
-      })
-    }
-  }
-
-  const ordenVisitas = []
-  const visitados = new Set()
-
-  visitados.add(origen)
-  grafo.get(origen).actual = 0
-
-  let actualNombre = origen
-  while (!visitados.has(destino)) {
-    if (!actualNombre) break
-
-    let actual = grafo.get(actualNombre)
-    let [actx, acty] = actualNombre.split(':')
-    actx = parseInt(actx)
-    acty = parseInt(acty)
-
-    let adyacentes = [
-      grafo.get(`${actx + 1}:${acty}`),
-			grafo.get(`${actx}:${acty + 1}`),
-      grafo.get(`${actx - 1}:${acty}`),
-      grafo.get(`${actx}:${acty - 1}`),
-    ]
-
-    for (const ady of adyacentes) {
-      if (!ady) continue
-      if (actual.actual + ady.peso < ady.actual) {
-        ady.actual = actual.actual + ady.peso
-        ady.camino = [...actual.camino]
-        ady.camino.push(actualNombre)
-      }
-    }
-
-    visitados.add(actualNombre)
-    ordenVisitas.push(actualNombre)
-    actualNombre = minimo(visitados, grafo)
-  }
-
-  let dest = grafo.get(destino)
-  if (dest.camino.length == 0) {
-    alert('es imposible llegar a destino')
-    return null
-  }
-
-  // var endTimeDijkstra = performance.now()
-  // alert( `Dijkstra, time:${ (endTimeDijkstra - startTimeDijkstra) / 1000 }s, path length: ${dest.camino.length}, nodes visited: ${visitados.size} `)
-
-  return [ordenVisitas, dest.camino]
+class Node {
+	constructor(x, y, weight) {
+		this.weight = weight
+		this.id = `${x}:${y}`
+		this.x = x
+		this.y = y
+		this.actual = Infinity
+	}
 }
 
-function minimo(visitados, grafo) {
-  let minimo = Infinity
-  let minCoords
-  for (const visitado of visitados) {
-    let actual = grafo.get(visitado)
-    let [actx, acty] = visitado.split(':')
-    actx = parseInt(actx)
-    acty = parseInt(acty)
+class Graph {
+	constructor(N, M) {
+		this.M = M
+		this.N = N
+		this.matrix = []
+		for (let i = 0; i < N; i++) {
+			let row = []
+			for (let j = 0; j < M; j++) {
+				let node = new Node(i, j, parseInt(document.getElementById(`${i}:${j}`).getAttribute("weight")))
+				row.push(node)
+			}
+			this.matrix.push(row)
+		}
+	}
 
-    let adyacentes = [
-      `${actx + 1}:${acty}`,
-			`${actx}:${acty + 1}`,
-      `${actx - 1}:${acty}`,
-      `${actx}:${acty - 1}`,
-    ]
+	get(x, y) {
+		if(0 <= x && x < this.N && 0 <= y && y < this.M){
+			return this.matrix[x][y]
+		}
+		return NaN
+	}
 
-    for (const coords of adyacentes) {
-      let ady = grafo.get(coords)
-      if (!ady || visitados.has(coords)) continue
-      if (actual.actual + ady.peso < minimo) {
-        minimo = actual.actual + ady.peso
-        minCoords = coords
-      }
-    }
-  }
-  return minCoords
+	adjacents(node) {
+		let directions = [[1,0], [0,1], [-1,0], [0,-1]]
+		let adjacents = []
+		for (const direction of directions) {
+			let adj = this.get(node.x + direction[0], node.y + direction[1])
+			adjacents.push(adj)
+		}
+		return adjacents
+	}
+}
+
+function dijkstra() {
+	// let startTimeDijkstra = performance.now()
+	const N = state.get("N")
+	const M = state.get("M")
+
+	const originIndex = state.get("origin").split(':').map((e) => parseInt(e))
+	const destIndex = state.get("destination").split(':').map((e) => parseInt(e))
+
+	const graph = new Graph(N, M)
+
+	const origin = graph.get(originIndex[0], originIndex[1])
+	const dest = graph.get(destIndex[0], destIndex[1])
+
+	origin.actual = 0
+	dest.visited = false
+
+	const nodesHeap = new Heap([], (x, y) => {
+			if (x.actual == y.actual)
+					return 0;
+			return (x.actual > y.actual) ? 1 : -1;
+	})
+
+	const visited = []
+
+	let act = origin
+	while (!dest.visited) {
+		if (!act) {
+			break
+		}
+		for (const node of graph.adjacents(act)) {
+			if (node.actual > act.actual + node.weight) {
+				node.actual = act.actual + node.weight
+				if (!node.lastVisited) {
+					nodesHeap.push(node)
+					node.lastVisited = act
+				}
+			}
+		}
+
+		visited.push(act.id)
+		act.visited = true
+		act = nodesHeap.pop()
+	}
+
+	const path = []
+	act = dest.lastVisited
+	while(act.id != origin.id){
+		path.push(act.id)
+		act = act.lastVisited
+	}
+	path.push(act.id)
+
+	// let endTimeDijkstra = performance.now()
+	// alert( `Dijkstra, time:${ (endTimeDijkstra - startTimeDijkstra) / 1000 }s, ${M}, ${N}`)
+	return [visited, path.reverse()]
 }
 
 export default dijkstra
