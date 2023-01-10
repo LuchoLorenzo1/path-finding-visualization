@@ -5,7 +5,7 @@
 // * terrain (weighted grass, water, sand, etc.) and recursive maze generator
 // * add loading animation
 
-import dijkstra from './algorithms/dijkstra.js'
+import {dijkstra, aStar} from './algorithms/algorithms.js'
 import animar from './animar.js'
 import { crearGrilla, cambiarCelda, cleanGrid, } from './grilla.js'
 
@@ -13,7 +13,7 @@ import Context from './context'
 const { state } = Context
 
 const pesoDefault = 1
-const algorithms = new Map([['Dijkstra', dijkstra]])
+const algorithms = new Map([['Dijkstra', dijkstra], ['aStar', aStar]])
 
 window.addEventListener('load', () => {
 	state.set('speed', 5)
