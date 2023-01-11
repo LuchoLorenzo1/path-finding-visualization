@@ -7,17 +7,12 @@ export const dijkstra = () => {
 	// let startTimeDijkstra = performance.now()
 	const N = state.get('N')
 	const M = state.get('M')
+	const weights = state.get('weights')
 
-	const originIndex = state
-		.get('origin')
-		.split(':')
-		.map((e) => parseInt(e))
-	const destIndex = state
-		.get('destination')
-		.split(':')
-		.map((e) => parseInt(e))
+	const originIndex = state.get('origin')
+	const destIndex = state.get('destination')
 
-	const graph = new Graph(N, M, false)
+	const graph = new Graph(N, M, weights, false)
 
 	const origin = graph.get(originIndex[0], originIndex[1])
 	const dest = graph.get(destIndex[0], destIndex[1])
@@ -47,7 +42,7 @@ export const dijkstra = () => {
 			}
 		}
 
-		visited.push(act.id)
+		visited.push([act.x, act.y])
 		act.visited = true
 		act = nodesHeap.pop()
 	}
@@ -55,7 +50,7 @@ export const dijkstra = () => {
 	const path = []
 	act = dest.lastVisited
 	while (act.id != origin.id) {
-		path.push(act.id)
+		path.push([act.x, act.y])
 		act = act.lastVisited
 	}
 
@@ -67,17 +62,12 @@ export const dijkstra = () => {
 export const aStar = () => {
 	const N = state.get('N')
 	const M = state.get('M')
+	const weights = state.get('weights')
 
-	const originIndex = state
-		.get('origin')
-		.split(':')
-		.map((e) => parseInt(e))
-	const destIndex = state
-		.get('destination')
-		.split(':')
-		.map((e) => parseInt(e))
+	const originIndex = state.get('origin')
+	const destIndex = state.get('destination')
 
-	const graph = new Graph(N, M, false, (x, y) => {
+	const graph = new Graph(N, M, weights, false, (x, y) => {
 		return Math.sqrt((destIndex[0] - x) ** 2 + (destIndex[1] - y) ** 2)
 	})
 
@@ -118,7 +108,7 @@ export const aStar = () => {
 			}
 		}
 
-		visited.push(act.id)
+		visited.push([act.x, act.y])
 		act.visited = true
 		act = nodesHeap.pop()
 	}
@@ -126,7 +116,7 @@ export const aStar = () => {
 	const path = []
 	act = dest.lastVisited
 	while (act.id != origin.id) {
-		path.push(act.id)
+		path.push([act.x, act.y])
 		act = act.lastVisited
 	}
 
@@ -136,16 +126,11 @@ export const aStar = () => {
 export const dfs = () => {
 	const N = state.get('N')
 	const M = state.get('M')
-	const originIndex = state
-		.get('origin')
-		.split(':')
-		.map((e) => parseInt(e))
-	const destIndex = state
-		.get('destination')
-		.split(':')
-		.map((e) => parseInt(e))
+	const weights = state.get('weights')
+	const originIndex = state.get('origin')
+	const destIndex = state.get('destination')
 
-	const graph = new Graph(N, M)
+	const graph = new Graph(N, M, weights)
 
 	const origin = graph.get(originIndex[0], originIndex[1])
 	const dest = graph.get(destIndex[0], destIndex[1])
@@ -164,7 +149,7 @@ export const dfs = () => {
 					dest.visited = true
 					return
 				}
-				visited.push(node.id)
+				visited.push([node.x, node.y])
 				node.visited = true
 				__dfs(node)
 				if(dest.visited) return
@@ -172,9 +157,8 @@ export const dfs = () => {
 		}
 		return
 	}
-	visited.push(act)
+	visited.push([act.x, act.y])
 	__dfs(act)
-	console.log(visited)
 
 	return [visited, visited]
 }

@@ -10,7 +10,7 @@ class Node {
 }
 
 class Graph {
-	constructor(N, M, diagonals = false, heuristic = null) {
+	constructor(N, M, weights, diagonals = false, heuristic = null) {
 		this.M = M
 		this.N = N
 		this.diagonals = diagonals
@@ -22,7 +22,7 @@ class Graph {
 				if (heuristic) {
 					h = heuristic(i, j)
 				}
-				let node = new Node(i, j, parseInt(document.getElementById(`${i}:${j}`).getAttribute('weight')), h)
+				let node = new Node(i, j, weights[i][j], h)
 				row.push(node)
 			}
 			this.matrix.push(row)
