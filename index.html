@@ -6,14 +6,14 @@
 	<meta name="viewport" content="width=device-width" />
 	<title>Path Finding Algorithms</title>
 	<link rel="stylesheet" href="./src/styles/styles.css" type="text/css" media="all">
-	<link rel="stylesheet" href="./src/styles/grilla.css" type="text/css" media="all">
+	<link rel="stylesheet" href="./src/styles/grid.css" type="text/css" media="all">
 	<link rel="stylesheet" href="./src/styles/menu.css" type="text/css" media="all">
 	<link rel="shortcut icon" href="#">
 </head>
 
 <body>
 
-	<table class="grid" id="grid"></table>
+	<canvas id="canvas"></canvas>
 
 	<div id="menu-container" class="menu-container" style="display: none;">
 		<ul id="menu-options" class="menu-options">
@@ -33,7 +33,7 @@
 
 		<div id="grid-menu" class="menu" style="display: none;">
 			<label>
-				grid size <input type="range" id="grid-size" name="speed" min="1" max="100" value="10" step="5" />
+				grid size <input type="range" id="grid-size" name="speed" min="10" max="100" step="1" />
 			</label>
 			<label>
 				border <input type="checkbox" id="border-checkbox" />

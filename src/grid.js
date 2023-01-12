@@ -1,17 +1,27 @@
 import Context from './context.js'
 const { state } = Context
+
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
-
-state.set('ctx', ctx)
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
 
 ctx.globalAlpha = 1
 const defaultWeight = 1
 let grid
 
-export const createGrid = (n, m) => {
-	grid = new Grid(n, m)
+export const createGrid = (n) => {
+	grid = new Grid(n)
 }
+
+export const resizeGrid = (n) => {
+	canvas.width = window.innerWidth
+	canvas.height = window.innerHeight
+	// createGrid(state.get('N'), state.get('M'))
+	createGrid(n)
+}
+
+window.addEventListener('resize', () => resizeGrid(grid.N), false)
 
 export const cleanGrid = () => {
 	grid.weights = []
@@ -28,11 +38,18 @@ export const cleanGrid = () => {
 }
 
 class Grid {
-	constructor(n, m) {
-		this.N = n
-		this.M = m
+	constructor(n) {
+		this.N = state.set("N", n)
+		console.log(canvas.width, canvas.width / this.N)
 		this.cellw = Math.floor(canvas.width / this.N)
-		this.cellh = Math.floor(canvas.height / this.M)
+
+		console.log(canvas.height)
+		this.M = state.set("M", Math.round(canvas.height / this.cellw))
+
+		this.cellh = this.cellw
+
+
+		// this.cellh = Math.floor(canvas.height / this.M)
 
 		this.weights = []
 		for (let i = 0; i < this.N; i++) {
@@ -43,10 +60,14 @@ class Grid {
 			this.weights.push(row)
 		}
 
+		let [origenx, origeny] = state.set('origin', [Math.floor(this.N*0.1), Math.floor(this.M*0.1)])
+		let [destx, desty] = state.set('destination', [Math.floor(this.N*0.8), Math.floor(this.M*0.8)])
+
 		this.objects = {
-			origin: [5, 5, '#00ff00'],
-			destination: [20, 20, '#ff0000'],
+			origin: [origenx, origeny, '#00ff00'],
+			destination: [destx, desty, '#ff0000'],
 		}
+
 		state.set('weights', this.weights)
 
 		this.setObjects()
@@ -95,6 +116,7 @@ class Grid {
 		if (i > this.N - 1 || j > this.M - 1) {
 			return
 		}
+		console.log('hola')
 		this.weights[i][j] = w
 		if (w == Infinity) {
 			this.paint(i, j, '#000000')
@@ -103,12 +125,25 @@ class Grid {
 		}
 	}
 
+	reset() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height)
+		for (let i = 0; i < this.N; i++) {
+			for (let j = 0; j < this.M; j++) {
+				let w = this.weights[i][j]
+				if (w == Infinity) {
+					this.paint(i, j, '#000000')
+				} else if (w == 0) {
+					this.paint(i, j, '#ffffff')
+				}
+			}
+		}
+		this.setObjects()
+	}
+
 	clean(i, j) {
 		ctx.fillStyle = '#ffffff'
 		ctx.fillRect(i * this.cellw, j * this.cellh, this.cellw, this.cellh)
 		this.weights[i][j] = defaultWeight
-
-		state.set('weights', this.weights)
 	}
 }
 
@@ -119,21 +154,24 @@ window.addEventListener('mouseup', () => {
 	moving_object = null
 })
 
+const getCoords = (e) => {
+	const rect = canvas.getBoundingClientRect()
+	return [
+		Math.floor((e.clientX - rect.left) / grid.cellw),
+		Math.floor((e.clientY - rect.top) / grid.cellh),
+	]
+}
+
 canvas.addEventListener('mouseup', (e) => {
 	if (!moving_object) return
-
-	const rect = canvas.getBoundingClientRect()
-	let i = Math.floor((e.clientX - rect.left) / grid.cellw)
-	let j = Math.floor((e.clientY - rect.top) / grid.cellh)
+	let [i, j] = getCoords(e)
 
 	grid.setObject(moving_object, i, j)
 	moving_object = null
 })
 
 const click = (e) => {
-	const rect = canvas.getBoundingClientRect()
-	let i = Math.floor((e.clientX - rect.left) / grid.cellw)
-	let j = Math.floor((e.clientY - rect.top) / grid.cellh)
+	let [i, j] = getCoords(e)
 	if (moving_object) {
 		grid.setObject(moving_object, i, j)
 		return
@@ -154,6 +192,13 @@ const click = (e) => {
 }
 
 canvas.addEventListener('mousedown', (e) => {
+	if (state.get('animating')) return
+
+	if (!state.get('isClean')) {
+		grid.reset()
+		state.set('isClean', true)
+	}
+
 	mousedown = e.button
 	click(e)
 })
@@ -170,17 +215,15 @@ canvas.addEventListener('mouseleave', () => {
 
 canvas.addEventListener('contextmenu', (e) => {
 	e.preventDefault()
-	const rect = canvas.getBoundingClientRect()
-	let i = Math.floor((e.clientX - rect.left) / grid.cellw)
-	let j = Math.floor((e.clientY - rect.top) / grid.cellh)
+	let [i, j] = getCoords(e)
 	if (grid.isObject(i, j)) {
 		return
 	}
 	grid.clean(i, j)
 })
 
-export function animate(visited, path) {
-	const speed = 1
+export const animate = (visited, path) => {
+	const speed = state.get('speed')
 	let timeout = 0
 
 	for (let i = 1; i < visited.length - 1; i++) {
@@ -188,8 +231,11 @@ export function animate(visited, path) {
 		let cell = visited[i]
 		setTimeout(() => {
 			ctx.globalAlpha = 0.4
-			const [a, b] = cell
-			grid.paint(a, b, '#ff00ff')
+			grid.paint(cell[0], cell[1], '#ff00ff')
+			// setTimeout(() => {
+			// 	ctx.globalAlpha = 0.4
+			// 	grid.paint(a, b, '#ff00ff')
+			// }, 50)
 			ctx.globalAlpha = 1
 		}, timeout)
 	}
@@ -200,9 +246,13 @@ export function animate(visited, path) {
 		let cell = path[i]
 		setTimeout(() => {
 			ctx.globalAlpha = 0.9
-			const [a, b] = cell
-			grid.paint(a, b, '#ff0000')
+			grid.paint(cell[0], cell[1], '#444400')
 			ctx.globalAlpha = 1
+
+			// setTimeout(() => {
+			// 	grid.paint(a, b, '#ff0000')
+			// 	ctx.globalAlpha = 1
+			// }, 50)
 		}, timeout)
 		timeout += speed
 	}

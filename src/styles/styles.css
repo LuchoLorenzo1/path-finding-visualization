@@ -17,7 +17,7 @@
   --wall: #112238;
 
   --visitados: rgba(52, 94, 168, 1);
-  --previsitados:  rgba(31, 181, 30, .5);
+  --previsitados: rgba(31, 181, 30, 0.5);
 
   --path: #2f0f0f;
   --vacio: white;
@@ -37,8 +37,13 @@
 }
 
 body {
-	overflow: hidden;
-	width: 100vw;
+  overflow: hidden;
+  width: 100vw;
   height: 100vh;
-	/* background-color: black; */
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+  background-color: black;
 }

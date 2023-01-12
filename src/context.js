@@ -13,6 +13,7 @@ export default class Context {
   }
   set(key, value) {
     this._state[key] = value
+		return value
   }
   get(key) {
     return this._state[key]

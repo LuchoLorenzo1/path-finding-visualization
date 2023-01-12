@@ -6,7 +6,7 @@
 // * add loading animation
 
 import { dijkstra, aStar, dfs } from './algorithms/algorithms.js'
-import { createGrid, cleanGrid, animate } from './grid.js'
+import { createGrid, cleanGrid, animate, resizeGrid } from './grid.js'
 
 import Context from './context'
 const { state } = Context
@@ -18,11 +18,14 @@ const algorithms = new Map([
 ])
 
 window.addEventListener('load', () => {
-	state.set('speed', 4)
-	state.set('N', 100)
-	state.set('M', 100)
-	state.set('origin', [0,1])
-	state.set('destination', [0,0])
+	state.set('speed', 1)
+	const N = state.set('N', 10)
+	const M = state.set('M', 10)
+
+	// state.set('destination', [Math.floor(N*0.8), Math.floor(M*0.8)])
+	state.set('origin', [Math.floor(N*0.1), Math.floor(M*0.1)])
+	state.set('destination', [0, 1])
+
 	state.set('animating', false)
 	state.set('isClean', true)
 	state.set('selectedWeight', Infinity)
@@ -38,7 +41,21 @@ window.addEventListener('load', () => {
 	})
 })
 
+
+//options
+document.getElementById('grid-size').onchange = (e) => {
+	if(state.get('animating')) return
+	resizeGrid(+(e.target.value))
+}
+
+
+document.getElementById('clean-grilla').addEventListener('click', () => {
+	if(state.get('animating')) return
+	cleanGrid()
+})
+
 document.getElementById('run').addEventListener('click', () => {
+	if(state.get('animating')) return
 	startAlgorithm()
 })
 
