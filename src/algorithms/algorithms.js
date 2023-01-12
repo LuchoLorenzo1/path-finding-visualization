@@ -79,7 +79,6 @@ export const aStar = () => {
 
 	const nodesHeap = new Heap([], (x, y) => {
 		let d = x.actual + x.heuristic - (y.actual + y.heuristic)
-		// console.log(x.heuristic)
 		if (d == 0) {
 			return 0
 		} else if (d > 0) {

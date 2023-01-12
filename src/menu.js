@@ -1,7 +1,7 @@
 import Context from './context'
 const { state } = Context
 
-const menuContainer = document.getElementById('menu-container')
+const menuContainer = document.getElementById('menu')
 const menuButton = document.getElementById('menu-button')
 
 const menuTabs = ['algorithms', 'grid', 'terrain', 'nodes']
@@ -14,7 +14,7 @@ menuButton.addEventListener('click', () => {
   }
 })
 
-document.getElementById('menu-options').addEventListener('click', (e) => {
+document.getElementById('menu').addEventListener('click', (e) => {
   // 'grid-option' -> ['grid', 'option']
   let tab = e.target.id.split('-')
   if (!menuTabs.includes(tab[0])) return
@@ -26,7 +26,7 @@ function toggleMenu(menuTab) {
   if (currentTab == menuTab) return
 
   document.getElementById(`${currentTab}-menu`).style.display = 'none'
-  document.getElementById(`${menuTab}-menu`).style.display = 'block'
+  document.getElementById(`${menuTab}-menu`).style.display = 'grid'
   document
     .getElementById(`${currentTab}-option`)
     .classList.replace('active', 'inactive')

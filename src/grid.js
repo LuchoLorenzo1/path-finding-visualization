@@ -40,10 +40,8 @@ export const cleanGrid = () => {
 class Grid {
 	constructor(n) {
 		this.N = state.set("N", n)
-		console.log(canvas.width, canvas.width / this.N)
 		this.cellw = Math.floor(canvas.width / this.N)
 
-		console.log(canvas.height)
 		this.M = state.set("M", Math.round(canvas.height / this.cellw))
 
 		this.cellh = this.cellw
@@ -116,7 +114,6 @@ class Grid {
 		if (i > this.N - 1 || j > this.M - 1) {
 			return
 		}
-		console.log('hola')
 		this.weights[i][j] = w
 		if (w == Infinity) {
 			this.paint(i, j, '#000000')
