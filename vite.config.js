@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-	base: '/path_finding_app/',
+	base: '/path-finding-visualization/',
 	build: {
 		outDir: './docs'
 	}
