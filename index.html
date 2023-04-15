@@ -9,8 +9,8 @@
 	
 	
 	<link rel="shortcut icon" href="#">
-  <script type="module" crossorigin src="/path-finding-visualization/assets/index.41c94171.js"></script>
-  <link rel="stylesheet" href="/path-finding-visualization/assets/index.f0ec839e.css">
+  <script type="module" crossorigin src="/path-finding-visualization/assets/index.f4cc3504.js"></script>
+  <link rel="stylesheet" href="/path-finding-visualization/assets/index.4b636673.css">
 </head>
 
 <body>
@@ -21,10 +21,10 @@
 		<ul id="menu-options" class="menu-options">
 			<li id="algorithms-option" class="menu-option active">algorithms</li>
 			<li id="grid-option" class="menu-option inactive">grid</li>
-			<li id="terrain-option" class="menu-option inactive">terrain</li>
+			<!-- <li id="terrain-option" class="menu-option inactive">terrain</li> -->
 		</ul>
 
-		<div id="algorithms-menu" class="menu" style="display: block;">
+		<div id="algorithms-menu" class="menu" style="display: grid;">
 			<label>
 				select algorithm <select id="select-algorithm" name="select" class="boton"></select>
 			</label>
@@ -35,24 +35,24 @@
 
 		<div id="grid-menu" class="menu" style="display: none;">
 			<label>
-				grid size <input type="range" id="grid-size" name="speed" min="10" max="200" step="1" value="50"/>
+				grid size <input type="range" id="grid-size" name="speed" min="10" max="500" step="2" value="80"/>
 			</label>
-			<label>
-				border <input type="checkbox" id="border-checkbox" />
-			</label>
-			<label>
-				show weights <input type="checkbox" id="weights-checkbox" />
-			</label>
-			<label>
-				<h3>change colors</h3>
-				<ul>
-					origin <input type="color" name="origin-color-changer" value="#00FF00">
-				</ul>
-			</label>
+
+			<!-- <label> -->
+				<!-- border <input type="checkbox" id="border-checkbox" /> -->
+			<!-- </label> -->
+			<!-- <label> -->
+				<!-- show weights <input type="checkbox" id="weights-checkbox" /> -->
+			<!-- </label> -->
+			<!-- <label> -->
+			<!-- 	<h3>change colors</h3> -->
+			<!-- 	<ul> -->
+			<!-- 		origin <input type="color" name="origin-color-changer" value="#00FF00"> -->
+			<!-- 	</ul> -->
+			<!-- </label> -->
 		</div>
-		<!---->
-		<div id="terrain-menu" class="menu" style="display: none;"></div>
-		<div id="nodes-menu" class="menu" style="display: none;"></div>
+		<!-- <div id="terrain-menu" class="menu" style="display: none;"></div> -->
+		<!-- <div id="nodes-menu" class="menu" style="display: none;"></div> -->
 	</div>
 
 	<div class="buttons-container">
