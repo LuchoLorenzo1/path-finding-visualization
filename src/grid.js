@@ -14,11 +14,10 @@ export const createGrid = (n) => {
 	grid = new Grid(n)
 }
 
-export const resizeGrid = (n) => {
+export const resizeGrid = (size) => {
 	canvas.width = window.innerWidth
 	canvas.height = window.innerHeight
-	// createGrid(state.get('N'), state.get('M'))
-	createGrid(n)
+	createGrid(size)
 }
 
 window.addEventListener('resize', () => resizeGrid(grid.N), false)
@@ -220,7 +219,7 @@ canvas.addEventListener('contextmenu', (e) => {
 })
 
 export const animate = (visited, path) => {
-	const speed = state.get('speed')
+	const speed = 2 - state.get('speed');
 	let timeout = 0
 
 	for (let i = 1; i < visited.length - 1; i++) {
@@ -230,9 +229,9 @@ export const animate = (visited, path) => {
 			ctx.globalAlpha = 0.4
 			grid.paint(cell[0], cell[1], '#ff00ff')
 			// setTimeout(() => {
-			// 	ctx.globalAlpha = 0.4
-			// 	grid.paint(a, b, '#ff00ff')
-			// }, 50)
+			// 	ctx.globalAlpha = 1
+			// 	grid.paint(cell[0], cell[1], '#440044')
+			// }, 100)
 			ctx.globalAlpha = 1
 		}, timeout)
 	}
@@ -246,10 +245,6 @@ export const animate = (visited, path) => {
 			grid.paint(cell[0], cell[1], '#444400')
 			ctx.globalAlpha = 1
 
-			// setTimeout(() => {
-			// 	grid.paint(a, b, '#ff0000')
-			// 	ctx.globalAlpha = 1
-			// }, 50)
 		}, timeout)
 		timeout += speed
 	}

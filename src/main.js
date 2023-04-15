@@ -19,8 +19,8 @@ const algorithms = new Map([
 
 window.addEventListener('load', () => {
 	state.set('speed', 1)
-	const N = state.set('N', 10)
-	const M = state.set('M', 10)
+	const N = state.set('N', 80)
+	const M = state.set('M', 80)
 
 	// state.set('destination', [Math.floor(N*0.8), Math.floor(M*0.8)])
 	state.set('origin', [Math.floor(N*0.1), Math.floor(M*0.1)])
@@ -76,4 +76,9 @@ const startAlgorithm = () => {
 	}
 
 	animate(resultado[0], resultado[1])
+}
+
+//options
+document.getElementById('algorithm-speed-input').onchange = (e) => {
+  state.set('speed', e.target.value)
 }

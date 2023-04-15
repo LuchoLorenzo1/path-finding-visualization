@@ -1,7 +1,7 @@
 import Context from './context'
 const { state } = Context
 
-const menuContainer = document.getElementById('menu')
+const menuContainer = document.getElementById('menu-container')
 const menuButton = document.getElementById('menu-button')
 
 const menuTabs = ['algorithms', 'grid', 'terrain', 'nodes']
@@ -14,7 +14,7 @@ menuButton.addEventListener('click', () => {
   }
 })
 
-document.getElementById('menu').addEventListener('click', (e) => {
+document.getElementById('menu-container').addEventListener('click', (e) => {
   // 'grid-option' -> ['grid', 'option']
   let tab = e.target.id.split('-')
   if (!menuTabs.includes(tab[0])) return
@@ -34,9 +34,4 @@ function toggleMenu(menuTab) {
     .getElementById(`${menuTab}-option`)
     .classList.replace('inactive', 'active')
   currentTab = menuTab
-}
-
-//options
-document.getElementById('algorithm-speed-input').onchange = (e) => {
-  state.set('speed', e.target.value)
 }
